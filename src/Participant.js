@@ -4,18 +4,22 @@ const Participant = ({ participant }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
 
+  // creates ref to html element
   const videoRef = useRef();
   const audioRef = useRef();
 
+  // filter out tracks that don't exist
   const trackpubsToTracks = (trackMap) =>
     Array.from(trackMap.values())
       .map((publication) => publication.track)
       .filter((track) => track !== null);
 
   useEffect(() => {
+    // use participant objects to set initial values for tracks
     setVideoTracks(trackpubsToTracks(participant.videoTracks));
     setAudioTracks(trackpubsToTracks(participant.audioTracks));
 
+    // when audio or video track is added for participant
     const trackSubscribed = (track) => {
       if (track.kind === "video") {
         setVideoTracks((videoTracks) => [...videoTracks, track]);
@@ -24,6 +28,7 @@ const Participant = ({ participant }) => {
       }
     };
 
+    // when audio or video track is removed for participant
     const trackUnsubscribed = (track) => {
       if (track.kind === "video") {
         setVideoTracks((videoTracks) => videoTracks.filter((v) => v !== track));
@@ -32,6 +37,7 @@ const Participant = ({ participant }) => {
       }
     };
 
+    // set listeners to the above functions
     participant.on("trackSubscribed", trackSubscribed);
     participant.on("trackUnsubscribed", trackUnsubscribed);
 
@@ -42,6 +48,7 @@ const Participant = ({ participant }) => {
     };
   }, [participant]);
 
+  // attach video track to DOM
   useEffect(() => {
     const videoTrack = videoTracks[0];
     if (videoTrack) {
@@ -52,6 +59,7 @@ const Participant = ({ participant }) => {
     }
   }, [videoTracks]);
 
+  // attach audio track to DOM
   useEffect(() => {
     const audioTrack = audioTracks[0];
     if (audioTrack) {

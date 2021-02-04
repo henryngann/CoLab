@@ -1,5 +1,6 @@
 import React from "react";
 
+// this component renders form to be passed to VideoChat.js
 const Lobby = ({
   username,
   handleUsernameChange,

@@ -85,11 +85,30 @@ button:hover {
 .room {
   position: relative;
 }
-.room button {
+.logout{
   position: absolute;
   top: 0;
   right: 20px;
 }
+
+.begin {
+  position: absolute;
+  top: 0;
+  right: 300px;
+}
+
+.timer {
+  position: absolute;
+  top: 100px;
+  right: 450px;
+  margin: 0;
+  padding: 0.5em 0.5em 0.5em 2em;
+  background: rgba(242, 47, 70, 0.8);
+  color: #fff;
+  font-size: 16px;
+  line-height: 1;
+}
+
 .room > h3 {
   text-align: center;
   font-weight: 300;

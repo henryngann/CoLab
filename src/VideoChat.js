@@ -3,20 +3,26 @@ import Video from "twilio-video";
 import Lobby from "./Lobby";
 import Room from "./Room";
 
+// This component handles the data for video chat
 const VideoChat = () => {
+
+  // hooks to store data about the user, room, and connections
   const [username, setUsername] = useState("");
   const [roomName, setRoomName] = useState("");
   const [room, setRoom] = useState(null);
   const [connecting, setConnecting] = useState(false);
 
+  // update username callback function
   const handleUsernameChange = useCallback((event) => {
     setUsername(event.target.value);
   }, []);
 
+  // update roomname callback function
   const handleRoomNameChange = useCallback((event) => {
     setRoomName(event.target.value);
   }, []);
 
+  // submits username and room for an access token from twilio
   const handleSubmit = useCallback(
     async (event) => {
       event.preventDefault();
@@ -46,6 +52,7 @@ const VideoChat = () => {
     [roomName, username]
   );
 
+  // ejects user from room and return them to lobby
   const handleLogout = useCallback(() => {
     setRoom((prevRoom) => {
       if (prevRoom) {
@@ -79,10 +86,12 @@ const VideoChat = () => {
 
   let render;
   if (room) {
+    // renders the Room.js if we have a token
     render = (
       <Room roomName={roomName} room={room} handleLogout={handleLogout} />
     );
   } else {
+    // only render the Lobby.js if we have don't have a token
     render = (
       <Lobby
         username={username}
