@@ -119,7 +119,9 @@ button:hover {
 
 .local-participant {
   text-align: center;
-  margin-right: 40rem;
+  margin-right: 35rem;
+  width: 38rem;
+  height: 32rem;
 }
 .remote-participants {
   display: flex;
@@ -132,6 +134,13 @@ button:hover {
 }
 .icons {
   display: flex;
+  margin-top: -30px;
+}
+.element {
+  margin-right: 5rem;
+}
+.phoneIcon {
+  margin-right: 18rem;
 }
 
 .users {

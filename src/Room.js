@@ -137,13 +137,10 @@ const Room = ({ roomName, room, handleLogout }) => {
             <div className="row">
               <div className="col">
                 <div className="icons">
-                  <h1 className="me-2">{VideoElement}</h1>
-                  <h1 className="me-2">{MicElement}</h1>
-                  <h1 className="me-2">{PhoneElement}</h1>
-                  <h1 className="me-2">{leftElement}</h1>
-                  <h1 className="me-2"># of Participants</h1>
-                  <h1 className="me-2">{rightElement}</h1>
-                  <h1 className="me-2">{fullElement}</h1>
+                  <h1 className="element">{VideoElement}</h1>
+                  <h1 className="element">{MicElement}</h1>
+                  <h1 className="phoneIcon">{PhoneElement}</h1>
+                  <h1 className="element">{fullElement}</h1>
                 </div>
               </div>
             </div>
