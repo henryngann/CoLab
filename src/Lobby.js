@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./media/CoLab.css";
 // this component renders form to be passed to VideoChat.js
 const Lobby = ({
   username,
@@ -11,32 +11,46 @@ const Lobby = ({
 }) => {
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Enter a room</h2>
-      <div>
-        <label htmlFor="name">Name:</label>
+      <h2 className="mt-5" style={{}}>
+        Create or Join a room
+      </h2>
+
+      <div class="form-floating mb-3">
         <input
           type="text"
+          className="form-control bradius"
           id="field"
+          placeholder="Name"
           value={username}
           onChange={handleUsernameChange}
           readOnly={connecting}
           required
         />
+        <label htmlFor="name">Enter your Name</label>
       </div>
 
-      <div>
-        <label htmlFor="room">Room name:</label>
+      <h2 className="" style={{}}>
+        Make a room
+      </h2>
+      <div class="form-floating mt-5">
         <input
           type="text"
+          className="form-control bradius"
           id="room"
+          placeholder="Room Code"
           value={roomName}
           onChange={handleRoomNameChange}
           readOnly={connecting}
           required
         />
+        <label htmlFor="room">Room Code</label>
       </div>
 
-      <button type="submit" disabled={connecting}>
+      <button
+        className="text-align-center mt-3 mx-auto"
+        type="submit"
+        disabled={connecting}
+      >
         {connecting ? "Connecting" : "Join"}
       </button>
     </form>
