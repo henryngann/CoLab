@@ -13,7 +13,7 @@ const ChatBar = (props) => {
     const [startWorkout, setStartWorkout] = useState(false);
 
     useEffect(() => {
-        if(counter > 0 && startWorkout){
+        if(startWorkout){
             counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
             setCompleted(counter/workoutTime * 100)
             if(counter == 0 && workoutNumber < defaultWorkout.length-1) setWorkoutNumber(workoutNumber + 1)
@@ -30,7 +30,7 @@ const ChatBar = (props) => {
     return (
         <div className="chatBar">
             <button onClick={() => setStartWorkout(true)} >Begin</button>
-            <button onClick={handleLogout} >Log out</button>
+            <button onClick={handleLogout}>Log out</button>
             <TimerProgressBar completed = {completed} time = {counter}/>
             <label>{exercise}</label>
         </div>
