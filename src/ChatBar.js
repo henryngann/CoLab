@@ -4,7 +4,6 @@ import { defaultWorkout } from "./DefaultWorkout"
 import pause from "./media/pause.png";
 import play from "./media/play.png";
 
-// this component renders form to be passed to VideoChat.js
 const ChatBar = () => {
     const [workoutTime, setWorkoutTime] = useState(defaultWorkout[0].time);
     const [counter, setCounter] = useState(defaultWorkout[0].time);
