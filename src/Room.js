@@ -139,7 +139,9 @@ const Room = ({ roomName, room, handleLogout }) => {
                 <div className="icons">
                   <h1 className="element">{VideoElement}</h1>
                   <h1 className="element">{MicElement}</h1>
-                  <h1 className="phoneIcon">{PhoneElement}</h1>
+                  <h1 className="element">{PhoneElement}</h1>
+                  <h1 className="element">{leftElement}</h1>
+                  <h1 className="element">{rightElement}</h1>
                   <h1 className="element">{fullElement}</h1>
                 </div>
               </div>
