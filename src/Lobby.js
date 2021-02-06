@@ -15,7 +15,7 @@ const Lobby = ({
         What's your name?
       </h2>
 
-      <div class="form-floating mb-3">
+      <div className="form-floating mb-3">
         <input
           type="text"
           className="form-control bradius"
