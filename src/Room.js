@@ -82,12 +82,11 @@ const Room = ({ roomName, room, handleLogout }) => {
   };
 
   return (
-    <>
+    <div className="roomPage">
       <ChatBar handleLogout = {handleLogout}/>
       <h2>Room: {roomName}, User: {room.localParticipant.identity}</h2>
 
       <div className="mt-5">
-
         <div className="local-participant">
           {room ? (
             leaderParticipant()
@@ -103,7 +102,7 @@ const Room = ({ roomName, room, handleLogout }) => {
         icon placeholder icon place holder icon place holder icon place holder
         icon place holder
       </h1>
-    </>
+    </div>
   );
 };
 

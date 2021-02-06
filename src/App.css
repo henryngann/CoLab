@@ -19,7 +19,6 @@ header {
   color: #fff;
   text-align: center;
   flex-grow: 0;
-  margin-bottom: 2em;
 }
 
 h1 {
@@ -177,8 +176,9 @@ footer a {
   float: right;
   border-left: 1px solid gray;
   border-radius: 30px;
-  padding-left: 2%;
+  padding: 2%;
   margin: 0;
+  display: block;
 }
 
 .roomPage {
@@ -186,4 +186,12 @@ footer a {
   height: 100%;
   position: absolute;
   /* min-height: 100%; */
+}
+
+.resumeWorkout {
+  float: right;
+}
+
+.exerciseList {
+  margin-top: 20%;
 }
