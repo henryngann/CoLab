@@ -3,6 +3,7 @@ import Video from "twilio-video";
 import Lobby from "./Lobby";
 import Room from "./Room";
 import Home from "./Home"
+import ParticipantLobby from "./ParticipantLobby"
 
 // This component handles the data for video chat
 const VideoChat = () => {
@@ -14,6 +15,7 @@ const VideoChat = () => {
   const [connecting, setConnecting] = useState(false);
   const [roomState, setRoomState] = useState(null);
   const [youtubeURL, setYoutubeURL] = useState(null);
+  const [roomTitle, setRoomTitle] = useState("")
 
   // update username callback function
   const handleUsernameChange = useCallback((event) => {
@@ -23,6 +25,10 @@ const VideoChat = () => {
   // update roomname callback function
   const handleRoomNameChange = useCallback((event) => {
     setRoomName(event.target.value);
+  }, []);
+
+  const handleRoomTitle = useCallback((event) => {
+    setRoomTitle(event.target.value);
   }, []);
 
   // update youtube callback function
@@ -82,12 +88,14 @@ const VideoChat = () => {
     // Generate Random CODE
     const room_code = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5).toUpperCase();
     setRoomName(room_code)
+    setUsername("Leader")
     setRoomState('make_youtube')
   }
 
   const makeCustomRoom = (event) => {
     const room_code = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5).toUpperCase();
     setRoomName(room_code)
+    setUsername("Leader")
     setRoomState('make_custom')
   }
 
@@ -132,16 +140,30 @@ const VideoChat = () => {
       );
     } else {
       // only render the Lobby.js if we have don't have a token
-      render = (
-        <Lobby
-          username={username}
-          roomName={roomName}
-          handleUsernameChange={handleUsernameChange}
-          handleRoomNameChange={handleRoomNameChange}
-          handleSubmit={handleSubmit}
-          connecting={connecting}
-        />
-      );
+      if (roomState === "make_custom" || roomState === "make_youtube") {
+        render = (
+          <Lobby
+            roomName={roomName}
+            roomTitle={roomTitle}
+            roomState={roomState}
+            handleRoomTitle={handleRoomTitle}
+            handleSubmit={handleSubmit}
+            youtubeURL={youtubeURL}
+            handleYoutubeURLChange={handleYoutubeURLChange}
+            connecting={connecting}
+          />
+        );
+      } else {
+        render = (
+          <ParticipantLobby
+            username={username}
+            roomName={roomName}
+            handleUsernameChange={handleUsernameChange}
+            handleSubmit={handleSubmit}
+            connecting={connecting}
+          />
+        );
+      }
     }
   }
   return render;

@@ -2,36 +2,61 @@ import React from "react";
 import "./media/CoLab.css";
 // this component renders form to be passed to VideoChat.js
 const Lobby = ({
-  username,
-  handleUsernameChange,
   roomName,
-  handleRoomNameChange,
+  roomState,
   handleSubmit,
+  roomTitle,
+  handleRoomTitle,
   connecting,
+  youtubeURL,
+  handleYoutubeURLChange
 }) => {
   return (
     <form onSubmit={handleSubmit}>
-      <h2 className="mt-5" style={{}}>
-        What's your name?
-      </h2>
-
+      <br />
+      {roomState === "make_youtube" ? (
+        <div className="form-floating mb-3">
+          <input
+            type="text"
+            className="form-control bradius"
+            id="field"
+            placeholder="Youtube URL"
+            value={youtubeURL}
+            onChange={handleYoutubeURLChange}
+            required
+          />
+          <label htmlFor="name">Youtube URL</label>
+          <p>Placeholder for Youtube Preview</p>
+        </div>
+      ) : (
+        ""
+      )}
+      
       <div className="form-floating mb-3">
         <input
           type="text"
           className="form-control bradius"
           id="field"
           placeholder="Name"
-          value={username}
-          onChange={handleUsernameChange}
+          value={roomTitle}
+          onChange={handleRoomTitle}
           readOnly={connecting}
           required
         />
-        <label htmlFor="name">Enter your Name</label>
+        <label htmlFor="name">Enter your Room Title</label>
       </div>
 
-      <h2 className="mt-5" style={{}}>
-        Make a room
-      </h2>
+      <div className="form-floating mb-3">
+        <input
+          type="text"
+          className="form-control bradius"
+          id="field"
+          placeholder="Password"
+          readOnly={connecting}
+        />
+        <label htmlFor="name">Room Password (optional)</label>
+      </div>
+
       <div className="form-floating mt-5">
         <input
           type="text"
@@ -39,8 +64,7 @@ const Lobby = ({
           id="room"
           placeholder="Room Code"
           value={roomName}
-          onChange={handleRoomNameChange}
-          readOnly={connecting}
+          readOnly={true}
           required
         />
         <label htmlFor="room">Room Code</label>
@@ -51,9 +75,21 @@ const Lobby = ({
         type="submit"
         disabled={connecting}
       >
-        {connecting ? "Connecting" : "Join"}
+        {connecting ? "Connecting" : "Create"}
       </button>
+
+      {roomState === "make_custom" ? (
+        <div>
+          <br />
+          <h2>Your Workouts</h2>
+          <p>List of Workouts PlaceHolder</p>
+        </div>
+      ) : (
+        ""
+      )}
+
     </form>
+
   );
 };
 
