@@ -1,9 +1,9 @@
 import React from "react";
 import "../media/CoLab.css";
-import logo from "../media/CoLab_logo.png";
+import logo from "../media/CoLab_logo_blue.png";
 const Navbar = () => {
   return (
-    <nav className="navbar navbar-light background ">
+    <nav className="navbar navbar-light background">
       <img
         src={logo}
         alt="Logo"

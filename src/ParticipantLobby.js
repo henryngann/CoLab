@@ -1,18 +1,21 @@
 import React from "react";
 import "./media/CoLab.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 // this component renders form to be passed to VideoChat.js
 const ParticipantLobby = ({
   username,
   handleUsernameChange,
   roomName,
   handleSubmit,
-  connecting
+  connecting,
 }) => {
+  const rightElement = <FontAwesomeIcon icon={faArrowRight} />;
   return (
     <form onSubmit={handleSubmit}>
       <br />
 
-      <div className="form-floating mb-3">
+      <div className="form-floating mb-5 mt-5">
         <input
           type="text"
           className="form-control bradius"
@@ -45,8 +48,10 @@ const ParticipantLobby = ({
         {connecting ? "Connecting" : "Join"}
       </button>
 
+      <button className="text-align-center arrowIcon" type="submit">
+        {rightElement}
+      </button>
     </form>
-
   );
 };
 
