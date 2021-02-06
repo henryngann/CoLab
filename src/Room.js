@@ -4,15 +4,16 @@ import Participant from "./Participant";
 // using roomName and token, we will create a room
 const Room = ({ roomName, room, handleLogout }) => {
   const [participants, setParticipants] = useState([]);
-  const [timer, setTimer] = useState(0)
-  const [isActive, setIsActive] = useState(false)
-  const countRef = useRef(null)
+  const [timer, setTimer] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+  const countRef = useRef(null);
 
   // once room is rendered do below
   useEffect(() => {
     // if participant connects or disconnects update room properties
     const participantConnected = (participant) => {
       setParticipants((prevParticipants) => [...prevParticipants, participant]);
+      console.log(participant);
     };
 
     const participantDisconnected = (participant) => {
@@ -36,41 +37,52 @@ const Room = ({ roomName, room, handleLogout }) => {
   ));
 
   const beginTimer = useCallback(() => {
-    setIsActive(true)
+    setIsActive(true);
     countRef.current = setInterval(() => {
-      setTimer((timer) => timer + 1)
-    }, 1000)
+      setTimer((timer) => timer + 1);
+    }, 1000);
   }, []);
 
   const formatTime = () => {
-    const getSeconds = `0${(timer % 60)}`.slice(-2)
-    const minutes = `${Math.floor(timer / 60)}`
-    const getMinutes = `0${minutes % 60}`.slice(-2)
-    const getHours = `0${Math.floor(timer / 3600)}`.slice(-2)
+    const getSeconds = `0${timer % 60}`.slice(-2);
+    const minutes = `${Math.floor(timer / 60)}`;
+    const getMinutes = `0${minutes % 60}`.slice(-2);
+    const getHours = `0${Math.floor(timer / 3600)}`.slice(-2);
 
-    return `${getHours} : ${getMinutes} : ${getSeconds}`
-  }
+    return `${getHours} : ${getMinutes} : ${getSeconds}`;
+  };
 
   return (
-    <div className="room">
+    <>
       <h2>Room: {roomName}</h2>
-      <button onClick={beginTimer} className="begin">Begin</button>
-      <button onClick={handleLogout} className="logout">Log out</button>
 
-      <div className="local-participant">
-        {room ? (
-          <Participant
-            key={room.localParticipant.sid}
-            participant={room.localParticipant}
-          />
-        ) : (
-          ""
-        )}
-        <div className="timer">{formatTime()}</div>
+      <div className="mt-5">
+        <button onClick={beginTimer} className="begin">
+          Begin
+        </button>
+        <button onClick={handleLogout} className="logout">
+          Log out
+        </button>
+
+        <div className="local-participant">
+          {room ? (
+            <Participant
+              key={room.localParticipant.sid}
+              participant={room.localParticipant}
+            />
+          ) : (
+            ""
+          )}
+          <div className="timer">{formatTime()}</div>
+        </div>
+
+        <div className="remote-participants ms-3">{remoteParticipants}</div>
       </div>
-      <h3>Remote Participants</h3>
-      <div className="remote-participants">{remoteParticipants}</div>
-    </div>
+      <h1 className="ms-5 mt-5">
+        icon placeholder icon place holder icon place holder icon place holder
+        icon place holder
+      </h1>
+    </>
   );
 };
 

@@ -85,7 +85,7 @@ button:hover {
 .room {
   position: relative;
 }
-.logout{
+.logout {
   position: absolute;
   top: 0;
   right: 20px;
@@ -118,12 +118,15 @@ button:hover {
 .local-participant {
   text-align: center;
   margin-bottom: 2em;
+  margin-right: 50rem;
 }
 .remote-participants {
   display: flex;
   flex-wrap: nowrap;
-  justify-content: space-between;
-  padding: 0 2em 2em;
+  padding: 0.5rem;
+  width: 10rem;
+  height: 5rem;
+  border-radius: 30px;
 }
 .participant {
   background: #333e5a;
@@ -137,10 +140,13 @@ button:hover {
 }
 .participant h3 {
   text-align: center;
+
   padding-bottom: 0.5em;
   color: #fff;
 }
-
+.users {
+  font-size: 14px;
+}
 video {
   width: 100%;
   max-width: 600px;

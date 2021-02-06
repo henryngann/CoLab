@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import "./media/CoLab.css";
 
 const Participant = ({ participant }) => {
   const [videoTracks, setVideoTracks] = useState([]);
@@ -71,8 +72,7 @@ const Participant = ({ participant }) => {
   }, [audioTracks]);
 
   return (
-    <div className="participant">
-      <h3>{participant.identity}</h3>
+    <div>
       <video ref={videoRef} autoPlay={true} />
       <audio ref={audioRef} autoPlay={true} muted={true} />
     </div>

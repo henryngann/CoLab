@@ -12,7 +12,7 @@ const Lobby = ({
   return (
     <form onSubmit={handleSubmit}>
       <h2 className="mt-5" style={{}}>
-        Create or Join a room
+        What's your name?
       </h2>
 
       <div class="form-floating mb-3">
@@ -29,7 +29,7 @@ const Lobby = ({
         <label htmlFor="name">Enter your Name</label>
       </div>
 
-      <h2 className="" style={{}}>
+      <h2 className="mt-5" style={{}}>
         Make a room
       </h2>
       <div class="form-floating mt-5">
