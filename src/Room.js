@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, useState, useRef } from "react";
 import Participant from "./Participant";
 import ChatBar from "./ChatBar";
+import YoutubeIframe from "./YoutubeIframe";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMicrophone,
@@ -30,6 +31,8 @@ const Room = ({ roomName, room, handleLogout }) => {
   const countRef = useRef(null);
   const [vid, setVid] = useState(false);
   const [mic, setMic] = useState(false);
+  const isYoutube = roomName.includes("-YT-") ? true : false;
+
   // once room is rendered do below
   useEffect(() => {
     // if participant connects or disconnects update room properties
@@ -175,7 +178,7 @@ const Room = ({ roomName, room, handleLogout }) => {
         <div className="row">
           <div className="col">
             <div className="local-participant">
-              {room ? leaderParticipant() : ""}
+              {room && !isYoutube? leaderParticipant() : <YoutubeIframe roomName={roomName}/>}
               {/* <div className="timer">{formatTime()}</div> */}
             </div>
             <div className="row">
