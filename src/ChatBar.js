@@ -29,9 +29,8 @@ const ChatBar = (props) => {
 
     return (
         <div className="chatBar">
-            <label htmlFor="room">Room name:</label>
-            <button onClick={() => setStartWorkout(true)} className="begin">Begin</button>
-            <button onClick={handleLogout} className="logout">Log out</button>
+            <button onClick={() => setStartWorkout(true)} >Begin</button>
+            <button onClick={handleLogout} >Log out</button>
             <TimerProgressBar completed = {completed} time = {counter}/>
             <label>{exercise}</label>
         </div>

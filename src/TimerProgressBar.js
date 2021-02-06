@@ -27,7 +27,6 @@ const TimerProgressBar = (props) => {
 
   return (
     <div>
-        <p>{timer}</p>
         <div style={containerStyles}>
         <div style={fillerStyles} />
         </div>

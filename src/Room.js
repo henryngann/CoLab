@@ -54,12 +54,12 @@ const Room = ({ roomName, room, handleLogout }) => {
   };
 
   return (
-    <>
+    <div className="roomPage">      
+    <ChatBar handleLogout = {handleLogout}/>
+
       <h2>Room: {roomName}</h2>
 
       <div className="mt-5">
-
-        <ChatBar handleLogout = {handleLogout}/>
 
         <div className="local-participant">
           {room ? (
@@ -70,16 +70,16 @@ const Room = ({ roomName, room, handleLogout }) => {
           ) : (
             ""
           )}
-          <div className="timer">{formatTime()}</div>
+          {/* <div className="timer">{formatTime()}</div> */}
         </div>
 
         <div className="remote-participants ms-3">{remoteParticipants}</div>
       </div>
-      <h1 className="ms-5 mt-5">
+      <h1>
         icon placeholder icon place holder icon place holder icon place holder
         icon place holder
       </h1>
-    </>
+    </div>
   );
 };
 
