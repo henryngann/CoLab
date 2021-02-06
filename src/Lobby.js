@@ -32,7 +32,7 @@ const Lobby = ({
       <h2 className="mt-5" style={{}}>
         Make a room
       </h2>
-      <div class="form-floating mt-5">
+      <div className="form-floating mt-5">
         <input
           type="text"
           className="form-control bradius"

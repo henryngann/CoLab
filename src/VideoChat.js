@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import Video from "twilio-video";
 import Lobby from "./Lobby";
 import Room from "./Room";
+import Home from "./Home"
 
 // This component handles the data for video chat
 const VideoChat = () => {
@@ -11,6 +12,8 @@ const VideoChat = () => {
   const [roomName, setRoomName] = useState("");
   const [room, setRoom] = useState(null);
   const [connecting, setConnecting] = useState(false);
+  const [roomState, setRoomState] = useState(null);
+  const [youtubeURL, setYoutubeURL] = useState(null);
 
   // update username callback function
   const handleUsernameChange = useCallback((event) => {
@@ -20,6 +23,11 @@ const VideoChat = () => {
   // update roomname callback function
   const handleRoomNameChange = useCallback((event) => {
     setRoomName(event.target.value);
+  }, []);
+
+  // update youtube callback function
+  const handleYoutubeURLChange = useCallback((event) => {
+    setYoutubeURL(event.target.value);
   }, []);
 
   // submits username and room for an access token from twilio
@@ -65,6 +73,24 @@ const VideoChat = () => {
     });
   }, []);
 
+  const joinRoom = (event) => {
+    // check if room exists here TODO
+    setRoomState('join')
+  }
+
+  const makeYoutubeRoom = (event) => {
+    // Generate Random CODE
+    const room_code = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5).toUpperCase();
+    setRoomName(room_code)
+    setRoomState('make_youtube')
+  }
+
+  const makeCustomRoom = (event) => {
+    const room_code = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5).toUpperCase();
+    setRoomName(room_code)
+    setRoomState('make_custom')
+  }
+
   useEffect(() => {
     if (room) {
       const tidyUp = (event) => {
@@ -84,24 +110,39 @@ const VideoChat = () => {
     }
   }, [room, handleLogout]);
 
+
+
   let render;
-  if (room) {
-    // renders the Room.js if we have a token
+  if (!(roomState === "make_custom" || roomState === "make_youtube" || roomState === "join")) {
     render = (
-      <Room roomName={roomName} room={room} handleLogout={handleLogout} />
-    );
-  } else {
-    // only render the Lobby.js if we have don't have a token
-    render = (
-      <Lobby
-        username={username}
+      <Home
         roomName={roomName}
-        handleUsernameChange={handleUsernameChange}
         handleRoomNameChange={handleRoomNameChange}
-        handleSubmit={handleSubmit}
-        connecting={connecting}
-      />
-    );
+        joinRoom={joinRoom}
+        makeYoutubeRoom={makeYoutubeRoom}
+        makeCustomRoom={makeCustomRoom}
+        youtubeURL={youtubeURL}
+        handleYoutubeURLChange={handleYoutubeURLChange}
+      />);
+  } else {
+    if (room) {
+      // renders the Room.js if we have a token
+      render = (
+        <Room roomName={roomName} room={room} handleLogout={handleLogout} />
+      );
+    } else {
+      // only render the Lobby.js if we have don't have a token
+      render = (
+        <Lobby
+          username={username}
+          roomName={roomName}
+          handleUsernameChange={handleUsernameChange}
+          handleRoomNameChange={handleRoomNameChange}
+          handleSubmit={handleSubmit}
+          connecting={connecting}
+        />
+      );
+    }
   }
   return render;
 };
