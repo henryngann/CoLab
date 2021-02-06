@@ -1,24 +1,24 @@
 export const defaultWorkout = [
     {
-        time: 10,
+        time: 2,
         exercise: "plank"
     },
     {
-        time: 10,
+        time: 4,
         exercise: "rest"
     },
     {
-        time: 10,
+        time: 4,
         exercise: "situp"
     },
-    // {
-    //     time: 6,
-    //     exercise: "hello"
-    // },
-    // {
-    //     time: 10,
-    //     exercise: "yuh"
-    // },
+    {
+        time: 3,
+        exercise: "hello"
+    },
+    {
+        time: 4,
+        exercise: "yuh"
+    },
     // {
     //     time: 7,
     //     exercise: "hai"

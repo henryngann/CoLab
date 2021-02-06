@@ -195,3 +195,7 @@ footer a {
 .exerciseList {
   margin-top: 20%;
 }
+
+#playPauseButtom {
+  background-color: transparent;
+}
