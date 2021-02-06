@@ -119,34 +119,21 @@ button:hover {
 
 .local-participant {
   text-align: center;
-  margin-bottom: 2em;
-  margin-right: 50rem;
+  margin-right: 40rem;
 }
 .remote-participants {
   display: flex;
-  flex-wrap: nowrap;
-  padding: 0.5rem;
-  width: 10rem;
-  height: 5rem;
-  border-radius: 30px;
-}
-.participant {
-  background: #333e5a;
-  padding: 10px;
-  border-radius: 6px;
-  display: inline-block;
-  margin-right: 10px;
-}
-
-.participant:last-child {
-  margin-right: 0;
-}
-.participant h3 {
   text-align: center;
-
-  padding-bottom: 0.5em;
-  color: #fff;
+  flex-wrap: nowrap;
+  width: 15rem;
+  height: 10rem;
+  border-radius: 30px;
+  margin-bottom: 0rem;
 }
+.icons {
+  display: flex;
+}
+
 .users {
   font-size: 14px;
 }

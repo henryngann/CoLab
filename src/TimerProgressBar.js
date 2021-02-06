@@ -5,35 +5,34 @@ const TimerProgressBar = (props) => {
 
   const containerStyles = {
     height: 15,
-    width: '100%',
+    width: "100%",
     backgroundColor: "#e0e0de",
     borderRadius: 50,
     marginTop: 20,
-    marginBottom: 5
-  }
+    marginBottom: 5,
+  };
 
   const fillerStyles = {
-    height: '100%',
+    height: "100%",
     width: `${completed}%`,
-    backgroundColor: '#48A0F1',
-    borderRadius: 'inherit',
-    textAlign: 'right'
-  }
+    backgroundColor: "#48A0F1",
+    borderRadius: "inherit",
+    textAlign: "right",
+  };
 
-//   const labelStyles = {
-//     padding: 5,
-//     color: 'white',
-//     fontWeight: 'bold'
-//   }
+  //   const labelStyles = {
+  //     padding: 5,
+  //     color: 'white',
+  //     fontWeight: 'bold'
+  //   }
 
   return (
     <div>
-        <div style={containerStyles}>
+      <div style={containerStyles}>
         <div style={fillerStyles} />
-        </div>
+      </div>
     </div>
   );
 };
 
 export default TimerProgressBar;
-

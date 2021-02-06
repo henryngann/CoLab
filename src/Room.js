@@ -1,6 +1,22 @@
 import React, { useEffect, useCallback, useState, useRef } from "react";
 import Participant from "./Participant";
 import ChatBar from "./ChatBar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMicrophone,
+  faVideo,
+  faPhoneSlash,
+  faArrowLeft,
+  faArrowRight,
+  faExpandAlt,
+} from "@fortawesome/free-solid-svg-icons";
+
+const VideoElement = <FontAwesomeIcon icon={faVideo} />;
+const MicElement = <FontAwesomeIcon icon={faMicrophone} />;
+const PhoneElement = <FontAwesomeIcon icon={faPhoneSlash} />;
+const leftElement = <FontAwesomeIcon icon={faArrowLeft} />;
+const rightElement = <FontAwesomeIcon icon={faArrowRight} />;
+const fullElement = <FontAwesomeIcon icon={faExpandAlt} />;
 
 // using roomName and token, we will create a room
 const Room = ({ roomName, room, handleLogout }) => {
@@ -11,9 +27,13 @@ const Room = ({ roomName, room, handleLogout }) => {
 
   // once room is rendered do below
   useEffect(() => {
-    // if participant connects or disconnects update room properties 
+    // if participant connects or disconnects update room properties
     const participantConnected = (participant) => {
-      setParticipants((prevParticipants) => ([...prevParticipants, participant]).filter((v, i, a) => a.indexOf(v) === i));
+      setParticipants((prevParticipants) =>
+        [...prevParticipants, participant].filter(
+          (v, i, a) => a.indexOf(v) === i
+        )
+      );
     };
 
     const participantDisconnected = (participant) => {
@@ -35,7 +55,7 @@ const Room = ({ roomName, room, handleLogout }) => {
   const remoteParticipants = () => {
     // const uniqueParticipants = [...new Set(participants)]
     // setParticipants(uniqueParticipants)
-    console.log(participants.length)
+    console.log(participants.length);
     if (participants.length < 1) {
       return `No Other Participants`;
     }
@@ -44,26 +64,38 @@ const Room = ({ roomName, room, handleLogout }) => {
         <Participant key={participant.sid} participant={participant} />
       ));
     } else {
-      const all_participants = [...participants, room.localParticipant]
-      return all_participants.filter(participant => participant.identity !== "Leader").map((participant) => (
-        <Participant key={participant.sid} participant={participant} />
-      ));
+      const all_participants = [...participants, room.localParticipant];
+      return all_participants
+        .filter((participant) => participant.identity !== "Leader")
+        .map((participant) => (
+          <Participant key={participant.sid} participant={participant} />
+        ));
     }
-    
-  } 
+  };
   const leaderParticipant = () => {
     if (participants.length >= 1) {
-      const participant = participants.filter(participant => participant.identity === "Leader")[0]
+      const participant = participants.filter(
+        (participant) => participant.identity === "Leader"
+      )[0];
 
       if (participant === undefined) {
-        return <Participant key={room.localParticipant.sid} participant={room.localParticipant} />
+        return (
+          <Participant
+            key={room.localParticipant.sid}
+            participant={room.localParticipant}
+          />
+        );
       }
-      return <Participant key={participant.sid} participant={participant} />
+      return <Participant key={participant.sid} participant={participant} />;
     } else {
-      return <Participant key={room.localParticipant.sid} participant={room.localParticipant} />
+      return (
+        <Participant
+          key={room.localParticipant.sid}
+          participant={room.localParticipant}
+        />
+      );
     }
-    
-  }
+  };
 
   const beginTimer = useCallback(() => {
     setIsActive(true);
@@ -83,25 +115,41 @@ const Room = ({ roomName, room, handleLogout }) => {
 
   return (
     <div className="roomPage">
-      <ChatBar handleLogout = {handleLogout}/>
-      <h2>Room: {roomName}, User: {room.localParticipant.identity}</h2>
+      <ChatBar handleLogout={handleLogout} />
+      <div className="container">
+        <h2>
+          Room: {roomName}, User: {room.localParticipant.identity}
+        </h2>
 
-      <div className="mt-5">
-        <div className="local-participant">
-          {room ? (
-            leaderParticipant()
-          ) : (
-            ""
-          )}
-          {/* <div className="timer">{formatTime()}</div> */}
+        <div className="row">
+          <div className="col">
+            <div className="local-participant">
+              {room ? leaderParticipant() : ""}
+              {/* <div className="timer">{formatTime()}</div> */}
+            </div>
+            <div className="row">
+              <div className="col">
+                <div className="remote-participants">
+                  {remoteParticipants()}
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                <div className="icons">
+                  <h1 className="me-2">{VideoElement}</h1>
+                  <h1 className="me-2">{MicElement}</h1>
+                  <h1 className="me-2">{PhoneElement}</h1>
+                  <h1 className="me-2">{leftElement}</h1>
+                  <h1 className="me-2"># of Participants</h1>
+                  <h1 className="me-2">{rightElement}</h1>
+                  <h1 className="me-2">{fullElement}</h1>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div className="remote-participants ms-3">{remoteParticipants()}</div>
       </div>
-      <h1>
-        icon placeholder icon place holder icon place holder icon place holder
-        icon place holder
-      </h1>
     </div>
   );
 };
