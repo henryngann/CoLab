@@ -5,3 +5,37 @@
 .bradius {
   border-radius: 64px;
 }
+
+.youtube {
+  width: 45rem;
+  position: relative;
+  right: 12rem;
+}
+
+h1 {
+  overflow: hidden;
+  text-align: center;
+}
+h2 {
+  color: #f3f3f3;
+}
+h2:before,
+h2:after {
+  background-color: #f3f3f3b9;
+  content: "";
+  display: inline-block;
+  height: 1px;
+  position: relative;
+  vertical-align: middle;
+  width: 50%;
+}
+
+h2:before {
+  right: 0.5em;
+  margin-left: -50%;
+}
+
+h2:after {
+  left: 0.5em;
+  margin-right: -50%;
+}
