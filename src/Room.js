@@ -1,5 +1,6 @@
 import React, { useEffect, useCallback, useState, useRef } from "react";
 import Participant from "./Participant";
+import ChatBar from "./ChatBar";
 
 // using roomName and token, we will create a room
 const Room = ({ roomName, room, handleLogout }) => {
@@ -57,12 +58,8 @@ const Room = ({ roomName, room, handleLogout }) => {
       <h2>Room: {roomName}</h2>
 
       <div className="mt-5">
-        <button onClick={beginTimer} className="begin">
-          Begin
-        </button>
-        <button onClick={handleLogout} className="logout">
-          Log out
-        </button>
+
+        <ChatBar handleLogout = {handleLogout}/>
 
         <div className="local-participant">
           {room ? (

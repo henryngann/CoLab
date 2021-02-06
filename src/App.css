@@ -166,3 +166,9 @@ footer {
 footer a {
   color: #fff;
 }
+
+.chatBar {
+  height: 100%;
+  width: 20%;
+  float: right;
+}
