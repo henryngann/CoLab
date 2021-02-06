@@ -12,15 +12,6 @@ const App = () => {
       <main>
         <VideoChat />
       </main>
-      <footer>
-        <p>
-          Made with{" "}
-          <span role="img" aria-label="React">
-            ⚛️
-          </span>{" "}
-          by <a href="google.com">Henry Ngan Rachael Ng Lily Wu Matthew Wong</a>
-        </p>
-      </footer>
     </div>
   );
 };

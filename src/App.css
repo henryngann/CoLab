@@ -157,6 +157,36 @@ button:hover {
   color: black;
   margin-right: 8rem;
 }
+.arrowIcon {
+  position: relative;
+  background: #48a0f1;
+  color: #ffffff;
+  border-radius: 20px;
+  width: 2.5rem;
+  top: -2.4rem;
+  right: -16.2rem;
+}
+.customIcon {
+  position: relative;
+  background: #48a0f1;
+  color: #ffffff;
+  border-radius: 20px;
+  width: 17rem;
+  height: 2.5rem;
+  top: -2.4rem;
+  right: -51rem;
+  margin-top: 5rem;
+}
+.youtubeIcon {
+  position: relative;
+  background: #48a0f1;
+  color: #ffffff;
+  border-radius: 20px;
+  width: 17rem;
+  height: 2.5rem;
+  top: -2.4rem;
+  right: -16.2rem;
+}
 
 .users {
   font-size: 14px;
