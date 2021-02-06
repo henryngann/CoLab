@@ -9,14 +9,18 @@ import {
   faArrowLeft,
   faArrowRight,
   faExpandAlt,
+  faVideoSlash,
+  faMicrophoneSlash,
 } from "@fortawesome/free-solid-svg-icons";
 
 const VideoElement = <FontAwesomeIcon icon={faVideo} />;
+const VideoElementMuted = <FontAwesomeIcon icon={faVideoSlash} />;
 const MicElement = <FontAwesomeIcon icon={faMicrophone} />;
 const PhoneElement = <FontAwesomeIcon icon={faPhoneSlash} />;
 const leftElement = <FontAwesomeIcon icon={faArrowLeft} />;
 const rightElement = <FontAwesomeIcon icon={faArrowRight} />;
 const fullElement = <FontAwesomeIcon icon={faExpandAlt} />;
+const MicElementMuted = <FontAwesomeIcon icon={faMicrophoneSlash} />;
 
 // using roomName and token, we will create a room
 const Room = ({ roomName, room, handleLogout }) => {
@@ -24,7 +28,8 @@ const Room = ({ roomName, room, handleLogout }) => {
   const [timer, setTimer] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const countRef = useRef(null);
-
+  const [vid, setVid] = useState(false);
+  const [mic, setMic] = useState(false);
   // once room is rendered do below
   useEffect(() => {
     // if participant connects or disconnects update room properties
@@ -55,7 +60,6 @@ const Room = ({ roomName, room, handleLogout }) => {
   const remoteParticipants = () => {
     // const uniqueParticipants = [...new Set(participants)]
     // setParticipants(uniqueParticipants)
-    console.log(participants.length);
     if (participants.length < 1) {
       return `No Other Participants`;
     }
@@ -72,6 +76,7 @@ const Room = ({ roomName, room, handleLogout }) => {
         ));
     }
   };
+
   const leaderParticipant = () => {
     if (participants.length >= 1) {
       const participant = participants.filter(
@@ -112,6 +117,52 @@ const Room = ({ roomName, room, handleLogout }) => {
 
     return `${getHours} : ${getMinutes} : ${getSeconds}`;
   };
+  const spawnVid = () => {
+    if (vid === false) {
+      return (
+        <button className="btn element" onClick={handleVid}>
+          {VideoElement}
+        </button>
+      );
+    } else {
+      return (
+        <button className="btn element" onClick={handleVid}>
+          {VideoElementMuted}
+        </button>
+      );
+    }
+    /*
+
+        
+    
+    */
+  };
+  const spawnMic = () => {
+    if (mic === false) {
+      return (
+        <button className="element" onClick={handleMic}>
+          {MicElement}
+        </button>
+      );
+    } else {
+      return (
+        <button className="element" onClick={handleMic}>
+          {MicElementMuted}
+        </button>
+      );
+    }
+  };
+  const spawnIcons = () => {
+    spawnMic();
+    spawnVid();
+  };
+  const handleMic = () => {
+    setMic(!mic);
+  };
+  const handleVid = () => {
+    setVid(!vid);
+    console.log(vid);
+  };
 
   return (
     <div className="roomPage">
@@ -136,13 +187,12 @@ const Room = ({ roomName, room, handleLogout }) => {
             </div>
             <div className="row">
               <div className="col">
-                <div className="icons">
-                  <h1 className="element">{VideoElement}</h1>
-                  <h1 className="element">{MicElement}</h1>
-                  <h1 className="element">{PhoneElement}</h1>
-                  <h1 className="element">{leftElement}</h1>
-                  <h1 className="element">{rightElement}</h1>
-                  <h1 className="element">{fullElement}</h1>
+                <div className="icons mt-3">
+                  <div className="element">{spawnVid()}</div>
+                  <div className="micIcon">{spawnMic()}</div>
+                  <button className="leftIcon">{leftElement}</button>
+                  <button className="phoneIcon">{rightElement}</button>
+                  <button className="element">{fullElement}</button>
                 </div>
               </div>
             </div>

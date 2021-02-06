@@ -137,10 +137,25 @@ button:hover {
   margin-top: -30px;
 }
 .element {
-  margin-right: 5rem;
+  margin-right: 1rem;
+  background: #ffffff;
+  color: black;
+  border: none;
 }
 .phoneIcon {
-  margin-right: 18rem;
+  background: #ffffff;
+  color: black;
+  margin-right: 9rem;
+}
+.micIcon {
+  background: #ffffff;
+  color: black;
+  margin-right: 8rem;
+}
+.leftIcon {
+  background: #ffffff;
+  color: black;
+  margin-right: 8rem;
 }
 
 .users {
