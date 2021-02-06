@@ -166,6 +166,7 @@ footer a {
   padding: 2%;
   margin: 0;
   display: block;
+  position: relative;
 }
 
 .roomPage {
@@ -179,10 +180,15 @@ footer a {
   float: right;
 }
 
-.exerciseList {
-  margin-top: 20%;
-}
-
 #playPauseButtom {
   background-color: transparent;
+}
+
+.exerciseList {
+  margin-top: 20%;
+  min-height: 50%;
+  padding-bottom: 10%;
+  height: 35%;
+  display: block;
+  position: absolute;
 }

@@ -57,6 +57,9 @@ const ChatBar = () => {
                     }) : <h6>{nextUpExercise}</h6>
                 }</div>
             </div>
+            <div className="commentSection">
+    
+            </div>
         </div>
     );
 };
