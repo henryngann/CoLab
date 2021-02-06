@@ -85,7 +85,7 @@ button:hover {
 .room {
   position: relative;
 }
-.logout{
+.logout {
   position: absolute;
   top: 0;
   right: 20px;
@@ -159,4 +159,10 @@ footer {
 
 footer a {
   color: #fff;
+}
+
+.chatBar {
+  height: 100%;
+  width: 20%;
+  float: right;
 }
