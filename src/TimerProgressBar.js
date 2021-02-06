@@ -4,26 +4,27 @@ const TimerProgressBar = (props) => {
   const { completed, timer } = props;
 
   const containerStyles = {
-    height: 18,
-    width: '70%',
+    height: 15,
+    width: '100%',
     backgroundColor: "#e0e0de",
     borderRadius: 50,
-    margin: 50
+    marginTop: 20,
+    marginBottom: 5
   }
 
   const fillerStyles = {
     height: '100%',
     width: `${completed}%`,
-    backgroundColor: '#6a1b9a',
+    backgroundColor: '#48A0F1',
     borderRadius: 'inherit',
     textAlign: 'right'
   }
 
-  const labelStyles = {
-    padding: 5,
-    color: 'white',
-    fontWeight: 'bold'
-  }
+//   const labelStyles = {
+//     padding: 5,
+//     color: 'white',
+//     fontWeight: 'bold'
+//   }
 
   return (
     <div>
