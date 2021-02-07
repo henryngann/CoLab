@@ -2,6 +2,42 @@
   background: #ebe6e6;
   box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.015);
 }
+.pworkout {
+  position: relative;
+  left: -15rem;
+
+  top: 0%;
+  bottom: -33.33%;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 28px;
+
+  color: #383839;
+}
+.pdesc {
+  position: relative;
+  left: -3rem;
+
+  top: 0%;
+  bottom: 8.5rem;
+  width: 30rem;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 28px;
+
+  color: #383839;
+}
+.pleftIcon {
+  background: #ffffff;
+  color: black;
+  margin-right: 8rem;
+  position: relative;
+  left: -18rem;
+  top: 2.1rem;
+}
 
 .bradius {
   border-radius: 64px;
