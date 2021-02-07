@@ -14,18 +14,16 @@ body {
   min-height: 100%;
 }
 
-header {
-  background: #f0293e;
-  color: #fff;
-  text-align: center;
-  flex-grow: 0;
-}
-
 h1 {
   font-weight: 300;
   padding: 0.4em 0;
 }
-
+.word {
+  position: relative;
+  right: 35px;
+  margin-top: 20px;
+  margin-right: 20px;
+}
 #root {
   min-height: 100vh;
 }
@@ -165,6 +163,16 @@ button:hover {
   width: 2.5rem;
   top: -2.4rem;
   right: -16.2rem;
+}
+.arrowIcon2 {
+  position: relative;
+  background: #48a0f1;
+  color: #ffffff;
+  border-radius: 30px;
+  width: 5rem;
+  height: 3.6rem;
+  top: -6.6rem;
+  right: -14.2rem;
 }
 .customIcon {
   position: relative;

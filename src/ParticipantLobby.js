@@ -13,6 +13,9 @@ const ParticipantLobby = ({
   const rightElement = <FontAwesomeIcon icon={faArrowRight} />;
   return (
     <form onSubmit={handleSubmit}>
+      <h1 className="text-align-center word" style={{ width: "25rem" }}>
+        Whats your name?{" "}
+      </h1>
       <br />
 
       <div className="form-floating mb-5 mt-5">
@@ -24,9 +27,12 @@ const ParticipantLobby = ({
           onChange={handleUsernameChange}
           readOnly={connecting}
         />
-        <label htmlFor="name">Name</label>
-      </div>
 
+        <label htmlFor="name">Enter your name here!</label>
+      </div>
+      <button className="text-align-center arrowIcon2" type="submit">
+        {rightElement}
+      </button>
       <div className="form-floating mt-5">
         <input
           type="text"
@@ -39,18 +45,6 @@ const ParticipantLobby = ({
         />
         <label htmlFor="room">Room Code</label>
       </div>
-
-      <button
-        className="text-align-center mt-3 mx-auto"
-        type="submit"
-        disabled={connecting}
-      >
-        {connecting ? "Connecting" : "Join"}
-      </button>
-
-      <button className="text-align-center arrowIcon" type="submit">
-        {rightElement}
-      </button>
     </form>
   );
 };
