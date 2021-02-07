@@ -4,7 +4,8 @@ import { defaultWorkout } from "./DefaultWorkout"
 import pause from "./media/pause.png";
 import play from "./media/play.png";
 
-const ChatBar = () => {
+const ChatBar = (props) => {
+    const {isYoutube} = props;
     const [workoutTime, setWorkoutTime] = useState(defaultWorkout[0].time);
     const [counter, setCounter] = useState(defaultWorkout[0].time);
     const [exercise, setExercise] = useState(defaultWorkout[0].exercise);
@@ -42,20 +43,24 @@ const ChatBar = () => {
 
     return (
         <div className="chatBar">
-                <div className="resumeWorkout"><label>{counter + "s"}</label></div>
+            <>
+                <div className="resumeWorkout">
+                    <label>{counter + "s"}</label>
+                </div>
                 <TimerProgressBar completed = {completed} time = {counter}/>
                 <button id="playPauseButtom" className="resumeWorkout" onClick={() => setStartWorkout(!startWorkout)}><img src={image} alt="pause"/></button>
-            <div className="exerciseList">
-                <h6>Now</h6>
-                <strong><h3>{exercise}</h3></strong>
-                <br />
-                <h6>Next Up</h6>
-                <div>{
-                    nextUpExercise && nextUpExercise.length > 1 && typeof nextUpExercise != 'string'? nextUpExercise.map((exercise) => {
-                        return (<h6 key={exercise}>{exercise}</h6>)
-                    }) : <h6>{nextUpExercise}</h6>
-                }</div>
-            </div>
+                <div className="exerciseList">
+                    <h6>Now</h6>
+                    <strong><h3>{exercise}</h3></strong>
+                    <br />
+                    <h6>Next Up</h6>
+                    <div>{
+                        nextUpExercise && nextUpExercise.length > 1 && typeof nextUpExercise != 'string'? nextUpExercise.map((exercise) => {
+                            return (<h6 key={exercise}>{exercise}</h6>)
+                        }) : <h6>{nextUpExercise}</h6>
+                    }</div>
+                </div>
+            </>
             <div className="commentSection">
     
             </div>
