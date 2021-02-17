@@ -35,8 +35,9 @@ io.on('connection', (socket) => {
         if (error) return callback(error);
         return callback();
     });
-    socket.on('join', ({ name, room, colors }, callback) => {
-        const { error, user } = addUser({ id: socket.id, name, room, colors });
+    socket.on('join', ({ name, room, sid }, callback) => {
+        const { error, user } = addUser({ id: socket.id, name, room, sid });
+        console.log(user)
         if (error) return callback(error);
 
         socket.emit('message', { user: { name: 'admin' }, text: `Hi ${user.name}! Welcome to your new room! You can invite your friends to watch with you by sending them the link to this page.` });

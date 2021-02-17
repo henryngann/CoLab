@@ -9,8 +9,8 @@ const checkUser = ({ name, room }) => {
     return {};
 }
 
-const addUser = ({ id, name, room, colors }) => {
-    const user = { id, name, room, colors };
+const addUser = ({ id, name, room, sid }) => {
+    const user = { id, name, room, sid };
     users.push(user);
     return { user };
 };
