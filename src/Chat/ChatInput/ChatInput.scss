@@ -1,0 +1,21 @@
+.chatInput input {
+  border-radius: 0 !important;
+  border-bottom: 0 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  padding: 1em !important;
+}
+.chatButton {
+  cursor: auto !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+#sendIcon {
+  color: #bfbfbf;
+  transition: all 0.1s;
+  &.readyToPress {
+    color: #43a3f0 !important;
+    cursor: pointer !important;
+    pointer-events: all !important;
+  }
+}

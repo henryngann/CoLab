@@ -1,10 +1,14 @@
 import React, {useState, useEffect} from "react";
 import TimerProgressBar from "./TimerProgressBar"
 import { defaultWorkout } from "./DefaultWorkout"
+import Chat from './Chat/Chat';
 import pause from "./media/pause.png";
 import play from "./media/play.png";
 
-const ChatBar = () => {
+const ChatBar = ({
+    currUser,
+    users
+}) => {
     const [workoutTime, setWorkoutTime] = useState(defaultWorkout[0].time);
     const [counter, setCounter] = useState(defaultWorkout[0].time);
     const [exercise, setExercise] = useState(defaultWorkout[0].exercise);
@@ -57,7 +61,10 @@ const ChatBar = () => {
                 }</div>
             </div>
             <div className="commentSection">
-    
+                <Chat
+                    currUser={currUser}
+                    users={users}
+                />
             </div>
         </div>
     );

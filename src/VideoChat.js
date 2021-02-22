@@ -88,7 +88,7 @@ const VideoChat = () => {
     // Generate Random CODE
     const room_code = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5).toUpperCase();
     const vidIdentifier = youtubeURL.substring(youtubeURL.indexOf("=")+1, youtubeURL.indexOf("=")+12)
-   console.log(vidIdentifier)
+    console.log(vidIdentifier)
     setRoomName(room_code+"-YT-" + vidIdentifier)
     setUsername("Leader")
     setRoomState('make_youtube')

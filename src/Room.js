@@ -13,6 +13,7 @@ import {
   faVideoSlash,
   faMicrophoneSlash,
 } from "@fortawesome/free-solid-svg-icons";
+import { sckt } from './Socket';
 
 const VideoElement = <FontAwesomeIcon icon={faVideo} />;
 const VideoElementMuted = <FontAwesomeIcon icon={faVideoSlash} />;
@@ -53,11 +54,36 @@ const Room = ({ roomName, room, handleLogout }) => {
     room.on("participantConnected", participantConnected);
     room.on("participantDisconnected", participantDisconnected);
     room.participants.forEach(participantConnected);
+
     return () => {
       room.off("participantConnected", participantConnected);
       room.off("participantDisconnected", participantDisconnected);
     };
+
   }, [room]);
+
+  // joins the room through sockets
+  useEffect(() => {
+    // TODO: Check if room exists
+    const sid = room.localParticipant.sid;
+    const name = room.localParticipant.identity
+
+    sckt.socket.emit('join', { name, room: room.sid, sid }, ({ id }) => {
+            // updateCurrUser({ id });
+            // setTimeout(() => {
+            //   setIsJoined(true);
+            // }, 750);
+          });
+  }, []); // TODO: update this to only join the room once!!!
+
+
+  // sending room data
+
+  // useEffect(() => {
+  //   const handler = ({ users }) => setParticipants(users);
+  //   sckt.socket.on("roomData", handler);
+  //   return () => sckt.socket.off('roomData', handler);
+  // }, []);
 
   // show all the particpants in the room
   const remoteParticipants = () => {
@@ -169,7 +195,11 @@ const Room = ({ roomName, room, handleLogout }) => {
 
   return (
     <div className="roomPage">
-      <ChatBar handleLogout={handleLogout} />
+      <ChatBar 
+        handleLogout={handleLogout}
+        currUser={room.localParticipant}
+        users={participants}
+      />
       <div className="container">
         <h2>
           Room: {roomName}, User: {room.localParticipant.identity}
