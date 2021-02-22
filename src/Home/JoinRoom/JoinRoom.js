@@ -1,10 +1,10 @@
 import React from "react";
-import "./media/CoLab.css";
+import "../../media/CoLab.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 // this component renders form to be passed to VideoChat.js
-const ParticipantLobby = ({
+const JoinRoom = ({
   username,
   handleUsernameChange,
   roomName,
@@ -50,4 +50,4 @@ const ParticipantLobby = ({
   );
 };
 
-export default ParticipantLobby;
+export default JoinRoom;

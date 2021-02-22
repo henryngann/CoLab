@@ -1,7 +1,7 @@
 import React from "react";
 
 const TimerProgressBar = (props) => {
-  const { completed, timer } = props;
+  const { completed } = props;
 
   const containerStyles = {
     height: 15,
@@ -19,12 +19,6 @@ const TimerProgressBar = (props) => {
     borderRadius: "inherit",
     textAlign: "right",
   };
-
-  //   const labelStyles = {
-  //     padding: 5,
-  //     color: 'white',
-  //     fontWeight: 'bold'
-  //   }
 
   return (
     <div>

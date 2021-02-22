@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Video from "twilio-video";
-import Lobby from "./Lobby";
-import Room from "./Room";
-import Home from "./Home"
-import ParticipantLobby from "./ParticipantLobby"
+import CreateRoom from "./Home/CreateRoom/CreateRoom";
+import Room from "./Room/Room";
+import JoinRoom from "./Home/JoinRoom/JoinRoom"
+import Home from "./Home/Home";
 
 // This component handles the data for video chat
 const VideoChat = () => {
@@ -144,7 +144,7 @@ const VideoChat = () => {
       // only render the Lobby.js if we have don't have a token
       if (roomState === "make_custom" || roomState === "make_youtube") {
         render = (
-          <Lobby
+          <CreateRoom
             roomName={roomName}
             roomTitle={roomTitle}
             roomState={roomState}
@@ -157,7 +157,7 @@ const VideoChat = () => {
         );
       } else {
         render = (
-          <ParticipantLobby
+          <JoinRoom
             username={username}
             roomName={roomName}
             handleUsernameChange={handleUsernameChange}

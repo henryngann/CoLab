@@ -19,8 +19,4 @@ export const defaultWorkout = [
         time: 4,
         exercise: "yuh"
     },
-    // {
-    //     time: 7,
-    //     exercise: "hai"
-    // },
   ];
