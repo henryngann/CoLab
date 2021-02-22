@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback, useState, useRef } from "react";
 import Participant from "./Participant";
-import ChatBar from "./ChatBar";
+import SideBar from "./SideBar";
 import YoutubeIframe from "./YoutubeIframe";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -195,7 +195,7 @@ const Room = ({ roomName, room, handleLogout }) => {
 
   return (
     <div className="roomPage">
-      <ChatBar 
+      <SideBar 
         handleLogout={handleLogout}
         currUser={room.localParticipant}
         users={participants}
