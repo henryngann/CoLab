@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { sckt } from '../Socket';
+import { sckt } from '../../../Socket';
 import './Chat.scss';
 import ChatInput from './ChatInput/ChatInput';
 import Messages from './Messages/Messages';
