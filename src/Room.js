@@ -13,6 +13,8 @@ import {
   faVideoSlash,
   faMicrophoneSlash,
 } from "@fortawesome/free-solid-svg-icons";
+import Video from './Video/Video';
+import { getVideoType } from './utils/video';
 import { sckt } from './Socket';
 
 const VideoElement = <FontAwesomeIcon icon={faVideo} />;
@@ -33,6 +35,92 @@ const Room = ({ roomName, room, handleLogout }) => {
   const [vid, setVid] = useState(false);
   const [mic, setMic] = useState(false);
   const isYoutube = roomName.includes("-YT-") ? true : false;
+
+  // Video stuff
+  const playerRef = useRef(null);
+  const [videoProps, setVideoProps] = useState({
+    queue: [],
+    history: [],
+    playing: true,
+    seekTime: 0,
+    receiving: false,
+    initVideo: false,
+    videoType: 'yt' // 'vimeo', 'twitch', 'soundcloud'
+  });
+
+  const updateVideoProps = (paramsToChange) => {
+    setVideoProps((prev) => ({ ...prev, ...paramsToChange }));
+  }
+  const sendVideoState = ({ eventName, eventParams }) => {
+    let params = {
+      name: room.localParticipant.identity,
+      room: room,
+      eventName: eventName,
+      eventParams: eventParams
+    };
+    sckt.socket.emit('sendVideoState', params, (error) => { });
+  };
+  const playVideoFromSearch = (searchItem) => {
+    const url = searchItem.video.url;
+    const videoType = getVideoType(url);
+    if (videoType !== null) {
+      updateVideoProps({ videoType });
+    }
+    // Handle playing video immediately
+    const { history } = videoProps;
+    loadVideo(searchItem, false);
+    sendVideoState({
+      eventName: "syncLoad",
+      eventParams: { searchItem, history: [searchItem, ...history] }
+    });
+    updateVideoProps({ history: [searchItem, ...history] });
+  }
+  const loadVideo = (searchItem, sync) => {
+    const { playing, seekTime, initVideo } = videoProps;
+    if ((playerRef.current !== null || !initVideo) && searchItem) {
+      if (!initVideo) updateVideoProps({ initVideo: true });
+      let videoUrl = searchItem.video.url;
+      if (sync) {
+        updateVideoProps({ url: videoUrl });
+        updateVideoProps({ playing });
+        updateVideoProps({ receiving: false });
+        playerRef.current.seekTo(seekTime, 'seconds');
+      } else {
+        updateVideoProps({ url: videoUrl });
+        updateVideoProps({ playing: true });
+        updateVideoProps({ receiving: false });
+      }
+      // sckt.socket.emit('updateRoomData', { video: searchItem }, (error) => { });
+    }
+  }
+  const log = (msg, type) => {
+    let baseStyles = [
+      "color: #fff",
+      "background-color: #444",
+      "padding: 2px 4px",
+      "border-radius: 2px"
+    ].join(';');
+    let serverStyles = [
+      "background-color: gray"
+    ].join(';');
+    let otherStyles = [
+      "color: #eee",
+      "background-color: red"
+    ].join(';');
+    let meStyles = [
+      "background-color: green"
+    ].join(';');
+    // Set style based on input type
+    let style = baseStyles + ';';
+    switch (type) {
+      case "server": style += serverStyles; break;
+      case "other": style += otherStyles; break;
+      case "me": style += meStyles; break;
+      case "none": style = ''; break;
+      default: break;
+    }
+    console.log(`%c${msg}`, style);
+  }
 
   // once room is rendered do below
   useEffect(() => {
@@ -208,7 +296,16 @@ const Room = ({ roomName, room, handleLogout }) => {
         <div className="row">
           <div className="col">
             <div className="local-participant">
-              {room && !isYoutube? leaderParticipant() : <YoutubeIframe roomName={roomName}/>}
+              {room && !isYoutube? leaderParticipant() : <Video
+                log={log}
+                room={room}
+                videoProps={videoProps}
+                updateVideoProps={updateVideoProps}
+                playerRef={playerRef}
+                sendVideoState={sendVideoState}
+                loadVideo={loadVideo}
+                playVideoFromSearch={playVideoFromSearch}
+              />}
               {/* <div className="timer">{formatTime()}</div> */}
             </div>
             <div className="row">
