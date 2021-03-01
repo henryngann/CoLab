@@ -6,7 +6,7 @@ import "./media/CoLab.css";
 const App = () => {
   return (
     <div className="app">
-      <Navbar></Navbar>
+      <Navbar />
 
       <main>
         <VideoChat />

@@ -1,12 +1,11 @@
 import React, { useEffect, useCallback, useState, useRef } from "react";
-import Participant from "./Participant";
-import ChatBar from "./ChatBar";
-import YoutubeIframe from "./YoutubeIframe";
+import Participant from "./Participant/Participant";
+import SideBar from "./SideBar/SideBar";
+import YoutubeIframe from "./YoutubeWorkout/YoutubeIframe";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMicrophone,
   faVideo,
-  faPhoneSlash,
   faArrowLeft,
   faArrowRight,
   faExpandAlt,
@@ -17,10 +16,10 @@ import Video from './Video/Video';
 import { getVideoType } from './utils/video';
 import { sckt } from './Socket';
 
+
 const VideoElement = <FontAwesomeIcon icon={faVideo} />;
 const VideoElementMuted = <FontAwesomeIcon icon={faVideoSlash} />;
 const MicElement = <FontAwesomeIcon icon={faMicrophone} />;
-const PhoneElement = <FontAwesomeIcon icon={faPhoneSlash} />;
 const leftElement = <FontAwesomeIcon icon={faArrowLeft} />;
 const rightElement = <FontAwesomeIcon icon={faArrowRight} />;
 const fullElement = <FontAwesomeIcon icon={faExpandAlt} />;
@@ -29,9 +28,6 @@ const MicElementMuted = <FontAwesomeIcon icon={faMicrophoneSlash} />;
 // using roomName and token, we will create a room
 const Room = ({ roomName, room, handleLogout }) => {
   const [participants, setParticipants] = useState([]);
-  const [timer, setTimer] = useState(0);
-  const [isActive, setIsActive] = useState(false);
-  const countRef = useRef(null);
   const [vid, setVid] = useState(false);
   const [mic, setMic] = useState(false);
   const isYoutube = roomName.includes("-YT-") ? true : false;
@@ -219,21 +215,6 @@ const Room = ({ roomName, room, handleLogout }) => {
     }
   };
 
-  const beginTimer = useCallback(() => {
-    setIsActive(true);
-    countRef.current = setInterval(() => {
-      setTimer((timer) => timer + 1);
-    }, 1000);
-  }, []);
-
-  const formatTime = () => {
-    const getSeconds = `0${timer % 60}`.slice(-2);
-    const minutes = `${Math.floor(timer / 60)}`;
-    const getMinutes = `0${minutes % 60}`.slice(-2);
-    const getHours = `0${Math.floor(timer / 3600)}`.slice(-2);
-
-    return `${getHours} : ${getMinutes} : ${getSeconds}`;
-  };
   const spawnVid = () => {
     if (vid === false) {
       return (
@@ -248,12 +229,8 @@ const Room = ({ roomName, room, handleLogout }) => {
         </button>
       );
     }
-    /*
-
-        
-    
-    */
   };
+
   const spawnMic = () => {
     if (mic === false) {
       return (
@@ -269,13 +246,16 @@ const Room = ({ roomName, room, handleLogout }) => {
       );
     }
   };
+
   const spawnIcons = () => {
     spawnMic();
     spawnVid();
   };
+
   const handleMic = () => {
     setMic(!mic);
   };
+
   const handleVid = () => {
     setVid(!vid);
     console.log(vid);
@@ -283,7 +263,7 @@ const Room = ({ roomName, room, handleLogout }) => {
 
   return (
     <div className="roomPage">
-      <ChatBar 
+      <SideBar 
         handleLogout={handleLogout}
         currUser={room.localParticipant}
         users={participants}
