@@ -70,7 +70,7 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
     useEffect(() => {
         // Sync other user's videoProps to our state
         const startSyncHandler = (videoProps) => {
-            log("I'm syncing.", 'server');
+            console.log("I'm syncing.", 'server');
             updateVideoProps({ ...videoProps });
             modifyVideoState({ ...videoProps });
             // loadVideo(videoProps.history[0], true);

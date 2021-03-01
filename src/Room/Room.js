@@ -12,9 +12,9 @@ import {
   faVideoSlash,
   faMicrophoneSlash,
 } from "@fortawesome/free-solid-svg-icons";
-import Video from './Video/Video';
-import { getVideoType } from './utils/video';
-import { sckt } from './Socket';
+import Video from '../Video/Video';
+import { getVideoType } from '../utils/video';
+import { sckt } from '../Socket';
 
 
 const VideoElement = <FontAwesomeIcon icon={faVideo} />;
@@ -50,7 +50,7 @@ const Room = ({ roomName, room, handleLogout }) => {
   const sendVideoState = ({ eventName, eventParams }) => {
     let params = {
       name: room.localParticipant.identity,
-      room: room,
+      room: room.sid,
       eventName: eventName,
       eventParams: eventParams
     };
