@@ -1,21 +1,16 @@
-import React from "react";
+import React, {useContext} from "react";
 import "../../media/CoLab.css";
 import youtubeimg from "../../media/workout.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import {AppContext} from "../../AppContext"
 // this component renders form to be passed to VideoChat.js
-const CreateRoom = ({
-  roomName,
-  roomState,
-  handleSubmit,
-  roomTitle,
-  handleRoomTitle,
-  connecting,
-  youtubeURL,
-  handleYoutubeURLChange,
-}) => {
+
+const CreateRoom = () => {
+  const {connecting, roomName, roomState, handleSubmit, roomTitle, handleRoomTitle} = useContext(AppContext)
   const leftElement = <FontAwesomeIcon icon={faArrowLeft} />;
   const rightElement = <FontAwesomeIcon icon={faArrowRight} />;
+  
   return (
     <form onSubmit={handleSubmit}>
       <br />
@@ -24,21 +19,6 @@ const CreateRoom = ({
           <button className="pleftIcon">{leftElement}</button>
           <p className="pworkout">Follow a Work Out</p>
           <div className="form-floating mb-3">
-            <input
-              type="text"
-              className="form-control bradius"
-              id="field"
-              placeholder="Youtube URL"
-              value={youtubeURL}
-              style={{
-                width: "30rem",
-                height: "2.5rem",
-                position: "relative",
-                left: "-18rem",
-              }}
-              onChange={handleYoutubeURLChange}
-              required
-            />
             <button
               className="text-align-center youtubeIcon"
               type="submit"

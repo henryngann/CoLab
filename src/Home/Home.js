@@ -1,17 +1,12 @@
-import React from "react";
+import React, {useContext}from "react";
 import "../media/CoLab.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import {AppContext} from "../AppContext"
+
 // this component renders form to be passed to VideoChat.js
-const Home = ({
-  joinRoom,
-  roomName,
-  handleRoomNameChange,
-  youtubeURL,
-  handleYoutubeURLChange,
-  makeCustomRoom,
-  makeYoutubeRoom,
-}) => {
+const Home = () => {
+  const {joinRoom, roomName, handleRoomNameChange, makeCustomRoom} = useContext(AppContext)
   const rightElement = <FontAwesomeIcon icon={faArrowRight} />;
 
   return (
@@ -37,22 +32,8 @@ const Home = ({
       <h1 className="mt-5 " style={{}}>
         Make a Room
       </h1>
-      <form onSubmit={makeYoutubeRoom}>
-        <input
-          type="text"
-          className="form-control bradius youtube"
-          id="field"
-          placeholder="Youtube URL"
-          value={youtubeURL}
-          onChange={handleYoutubeURLChange}
-          required
-        />
-        <button className="text-align-center youtubeIcon" type="submit">
-          We'll follow this video.
-        </button>
-      </form>
+      <form onSubmit={makeCustomRoom} />
       <h2 className="mt-5">Or create your own workout.</h2>
-
       <button
         onClick={makeCustomRoom}
         className="text-align-center customIcon"
