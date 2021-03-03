@@ -1,0 +1,117 @@
+input:focus {
+  outline: none;
+}
+
+.video-item img {
+  max-width: 64px;
+}
+
+.video-box {
+  margin-bottom: 15px !important;
+}
+
+.video-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+}
+
+.col-md-3 {
+  background-color: #eee;
+}
+
+.videoList {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+}
+.list-group-item {
+  /* 10px = 2 * LR margin of list-group-item */
+  flex: 0 1 calc(100% / 3 - 10px);
+  margin: 0 5px 25px 5px;
+  border: none !important;
+  -webkit-transition: all 0.2s ease-in;
+  -moz-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+  list-style: none;
+  @media (max-width: 960px) {
+    /* 10px = 2 * LR margin of list-group-item */
+    flex: 0 1 calc(100% / 2 - 10px);
+  }
+}
+
+.search-item-body {
+  padding: 5px 5px 0 5px;
+}
+.search-item-video-title,
+.search-item-channel-title,
+.search-item-channel-date {
+  font-family: "Roboto", Helvetica, sans-serif !important;
+}
+.search-item-video-title {
+  cursor: pointer;
+  font-weight: 600;
+  color: rgb(3, 3, 3);
+  margin: 8px 0 4px 0;
+  font-size: 14px;
+}
+.search-item-channel-title {
+  color: #606060;
+  margin: 3px 0;
+  font-size: 14px;
+  text-decoration: none;
+}
+.search-item-channel-date {
+  color: #606060;
+  margin: 3px 0;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  cursor: auto;
+}
+.verifiedIcon {
+  background: none !important;
+  padding: 0 0.5em !important;
+  i {
+    color: #606060;
+  }
+}
+.navIcons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.search-item-thumb {
+  position: relative;
+  img {
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s ease;
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+}
+.thumb-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* background-color: rgba(67, 163, 240, 0.6); */
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+.videoIcon {
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+  margin: 0 0.5em !important;
+}
