@@ -29,22 +29,7 @@ const validateTwitchUrl = (url) => {
 const validateSoundCloudUrl = (url) => {
     return /((https:\/\/)|(http:\/\/)|(www.)|(m\.)|(\s))+(soundcloud.com\/)+[a-zA-Z0-9\-\.]+(\/)+[a-zA-Z0-9\-\.]+/.test(url);
 }
-// function formatTimestamp(input) {
-//     if (
-//         input === null ||
-//         input === undefined ||
-//         input === false ||
-//         Number.isNaN(input) ||
-//         input === Infinity
-//     ) {
-//         return '';
-//     }
-//     let minutes = Math.floor(Number(input) / 60);
-//     let seconds = Math.floor(Number(input) % 60)
-//         .toString()
-//         .padStart(2, '0');
-//     return `${minutes}:${seconds}`;
-// }
+
 const formatTimestamp = (seconds) => {
     if (isNaN(seconds)) {
         return `00:00`;
@@ -75,8 +60,6 @@ const getVideoType = (url) => {
         return 'vimeo';
     } else if (validateTwitchUrl(url)) {
         return 'twitch';
-        // } else if (validateSoundCloudUrl(url)) {
-        //     return 'soundcloud';
     } else {
         return null;
     }

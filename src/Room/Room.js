@@ -160,19 +160,8 @@ const Room = ({ roomName, room, handleLogout }) => {
           });
   }, []); // TODO: update this to only join the room once!!!
 
-
-  // sending room data
-
-  // useEffect(() => {
-  //   const handler = ({ users }) => setParticipants(users);
-  //   sckt.socket.on("roomData", handler);
-  //   return () => sckt.socket.off('roomData', handler);
-  // }, []);
-
   // show all the particpants in the room
   const remoteParticipants = () => {
-    // const uniqueParticipants = [...new Set(participants)]
-    // setParticipants(uniqueParticipants)
     if (participants.length < 1) {
       return `No Other Participants`;
     }
