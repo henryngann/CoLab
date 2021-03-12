@@ -106,12 +106,6 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch, updateVideoProps })
         });
     }
     const getSoundCloudVideo = async (scUrl) => {
-        // axios.get(`${baseURL}/soundcloudvideo`, {
-        //     params: { scUrl }
-        // }).then(response => {
-        //     setLoading(false);
-        //     const searchItem = response.data;
-        // });
         playVideoFromSearch({ video: { id: scUrl, url: scUrl }, channel: { username: '' } });
     }
     // Ping YT scraper without loading icon

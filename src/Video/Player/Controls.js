@@ -123,27 +123,6 @@ const Controls = forwardRef(
                 </Tracks>
               </Slider>
             </div>
-            {/* <div className="playback">
-            <Button onClick={() => onPlaybackRateChange(((playbackRate + 0.25) % 2.25))}>{playbackRate}x</Button> */}
-            {/* <Popup
-              trigger={<Button>{playbackRate}x</Button>}
-              content={<div>
-                <Button.Group vertical>
-                  {[0.5, 1, 1.5, 2].map((rate) => (
-                    <Button
-                      key={rate}
-                      onClick={() => onPlaybackRateChange(rate)}
-                    >
-                      {rate}x
-                    </Button>
-                  ))}
-                </Button.Group>
-              </div>}
-              on='click'
-              // hoverable
-              pinned
-            /> */}
-            {/* </div> */}
             <Icon
               size='large'
               onClick={onToggleFullScreen}

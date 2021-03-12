@@ -40,13 +40,6 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
         });
         updateVideoProps({ queue: updatedQueue });
     }
-    // // Debugging
-    // useEffect(() => {
-    //     console.log("Queue: ", videoProps.queue);
-    // }, [videoProps.queue])
-    // useEffect(() => {
-    //     console.log("History: ", videoProps.history);
-    // }, [videoProps.history])
 
     useEffect(() => {
         // Send videoProps to new user
