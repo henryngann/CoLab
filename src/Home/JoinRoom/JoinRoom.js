@@ -1,17 +1,14 @@
-import React from "react";
+import React, {useContext} from "react";
 import "../../media/CoLab.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import {AppContext} from "../../AppContext"
 
 // this component renders form to be passed to VideoChat.js
-const JoinRoom = ({
-  username,
-  handleUsernameChange,
-  roomName,
-  handleSubmit,
-  connecting,
-}) => {
+const JoinRoom = () => {
+  const {connecting, roomName, handleSubmit, handleUsernameChange} = useContext(AppContext)
   const rightElement = <FontAwesomeIcon icon={faArrowRight} />;
+
   return (
     <form onSubmit={handleSubmit}>
       <h1 className="text-align-center word" style={{ width: "25rem" }}>

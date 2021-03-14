@@ -30,7 +30,7 @@ const Room = ({ roomName, room, handleLogout }) => {
   const [participants, setParticipants] = useState([]);
   const [vid, setVid] = useState(false);
   const [mic, setMic] = useState(false);
-  const isYoutube = roomName.includes("-YT-") ? true : false;
+  const [isYoutube, setIsYoutube] = useState(false);
 
   // Video stuff
   const playerRef = useRef(null);
