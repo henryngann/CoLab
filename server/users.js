@@ -10,7 +10,8 @@ const checkUser = ({ name, room }) => {
 }
 
 const addUser = ({ id, name, room, sid }) => {
-    const user = { id, name, room, sid };
+    isLeader = (getLeadersInRoom(room).length > 0) ? false : true;
+    const user = { id, name, room, sid, isLeader };
     users.push(user);
     return { user };
 };
@@ -18,7 +19,11 @@ const addUser = ({ id, name, room, sid }) => {
 const removeUser = (id) => {
     const index = users.findIndex((user) => user.id === id);
     if (index != -1) {
-        return users.splice(index, 1)[0];
+        const removedUser = users.splice(index, 1)[0]
+        if (getLeadersInRoom(removedUser.room).length == 0 && getUsersInRoom(removedUser.room).length > 0) {
+            users[0].isLeader = true;
+        }
+        return removedUser;
     }
 };
 
@@ -30,6 +35,8 @@ const getUsersInRoom = (room) => users.filter((user) => user.room === room);
 
 const getOtherUserInRoom = (room, newUser) => users.filter((user) => user.room === room && user.id !== newUser.id)[0];
 
+const getLeadersInRoom = (room) => users.filter((user) => user.room === room && user.isLeader === true);
+
 module.exports = { 
     checkUser, 
     addUser, 
@@ -37,5 +44,6 @@ module.exports = {
     getUserById, 
     getUsersInRoom, 
     getOtherUserInRoom, 
-    getUserByName 
+    getUserByName,
+    getLeadersInRoom
 };
