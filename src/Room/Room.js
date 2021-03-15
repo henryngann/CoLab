@@ -28,6 +28,7 @@ const MicElementMuted = <FontAwesomeIcon icon={faMicrophoneSlash} />;
 // using roomName and token, we will create a room
 const Room = ({ roomName, room, handleLogout }) => {
   const [participants, setParticipants] = useState([]);
+  const [leaderParticipantIDs, setLeaderParticipantIDs] = useState([]);
   const [vid, setVid] = useState(false);
   const [mic, setMic] = useState(false);
   const [isYoutube, setIsYoutube] = useState(false);
@@ -158,33 +159,34 @@ const Room = ({ roomName, room, handleLogout }) => {
             //   setIsJoined(true);
             // }, 750);
           });
-  }, []); // TODO: update this to only join the room once!!!
+  }, []);
+
+  useEffect(() => {
+    const handler = (leaderList) => {
+      setLeaderParticipantIDs([...leaderList]);
+    }
+    sckt.socket.on('leader', handler);
+    return () => sckt.socket.off('leader', handler);
+  }, []);
 
   // show all the particpants in the room
   const remoteParticipants = () => {
     if (participants.length < 1) {
       return `No Other Participants`;
     }
-    if (room.localParticipant.identity === "Leader") {
-      return participants.map((participant) => (
+    const all_participants = [...participants, room.localParticipant];
+    return all_participants
+      .filter((participant) => participant.sid !== leaderParticipantIDs[0])
+      .map((participant) => (
         <Participant key={participant.sid} participant={participant} />
       ));
-    } else {
-      const all_participants = [...participants, room.localParticipant];
-      return all_participants
-        .filter((participant) => participant.identity !== "Leader")
-        .map((participant) => (
-          <Participant key={participant.sid} participant={participant} />
-        ));
-    }
   };
 
   const leaderParticipant = () => {
     if (participants.length >= 1) {
       const participant = participants.filter(
-        (participant) => participant.identity === "Leader"
+        (participant) => participant.sid === leaderParticipantIDs[0]
       )[0];
-
       if (participant === undefined) {
         return (
           <Participant

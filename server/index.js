@@ -11,7 +11,8 @@ const {
     getUserById,
     getUsersInRoom,
     getOtherUserInRoom,
-    getUserByName
+    getUserByName,
+    getLeadersInRoom
 } = require('./users.js');
 const { getActiveRooms } = require('./rooms.js');
 
@@ -52,6 +53,9 @@ io.on('connection', (socket) => {
 
         socket.join(user.room);
         io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+
+        let leaderList = getLeadersInRoom(user.room).map((obj) => obj.sid);
+        io.to(user.room).emit('leader', leaderList);
         callback({ id: socket.id });
     });
     socket.on('disconnect', () => {
@@ -59,6 +63,9 @@ io.on('connection', (socket) => {
         if (user) {
             socket.broadcast.to(user.room).emit('message', { user: { name: 'admin' }, text: `${user.name} has left` });
             socket.broadcast.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+
+            let leaderList = getLeadersInRoom(user.room).map((obj) => obj.sid);
+            io.to(user.room).emit('leader', leaderList);
         }
     });
     socket.on('leaveRoom', ({ room }) => {
@@ -66,6 +73,9 @@ io.on('connection', (socket) => {
         if (user) {
             socket.broadcast.to(user.room).emit('message', { user: { name: 'admin' }, text: `${user.name} has left` });
             socket.broadcast.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+
+            let leaderList = getLeadersInRoom(user.room).map((obj) => obj.sid);
+            io.to(user.room).emit('leader', leaderList);
         }
         socket.leave(room);
     });
