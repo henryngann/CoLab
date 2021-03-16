@@ -1,8 +1,9 @@
-import React, { useEffect, useCallback, useState, useRef } from "react";
+import React, { useEffect, useContext, useState, useRef } from "react";
 import Participant from "./Participant/Participant";
 import SideBar from "./SideBar/SideBar";
 import YoutubeIframe from "./YoutubeWorkout/YoutubeIframe";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AppContext } from "./../AppContext";
 import {
   faMicrophone,
   faVideo,
@@ -16,7 +17,6 @@ import Video from '../Video/Video';
 import { getVideoType } from '../utils/video';
 import { sckt } from '../Socket';
 
-
 const VideoElement = <FontAwesomeIcon icon={faVideo} />;
 const VideoElementMuted = <FontAwesomeIcon icon={faVideoSlash} />;
 const MicElement = <FontAwesomeIcon icon={faMicrophone} />;
@@ -26,13 +26,13 @@ const fullElement = <FontAwesomeIcon icon={faExpandAlt} />;
 const MicElementMuted = <FontAwesomeIcon icon={faMicrophoneSlash} />;
 
 // using roomName and token, we will create a room
-const Room = ({ roomName, room, handleLogout }) => {
+const Room = () => {
   const [participants, setParticipants] = useState([]);
   const [leaderParticipantIDs, setLeaderParticipantIDs] = useState([]);
   const [vid, setVid] = useState(false);
   const [mic, setMic] = useState(false);
   const [isYoutube, setIsYoutube] = useState(false);
-
+  const { roomName, room, handleLogout } = useContext(AppContext);
   // Video stuff
   const playerRef = useRef(null);
   const [videoProps, setVideoProps] = useState({
