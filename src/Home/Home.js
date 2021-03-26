@@ -17,9 +17,14 @@ const Home = () => {
     history.push(RoutesEnum.CreateRoom)
   }
   
+  const handleJoinRoom = () =>{
+    joinRoom()
+    history.push(RoutesEnum.JoinRoom)
+  }
+
   return (
     <div>
-      <form onSubmit={joinRoom}>
+      <form onSubmit={handleJoinRoom}>
         <h1 className="mt-5" style={{}}>
           Join a Room
         </h1>

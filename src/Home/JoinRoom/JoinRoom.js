@@ -1,13 +1,47 @@
-import React, {useContext} from "react";
+import React, {useContext, useCallback} from "react";
+import {useHistory} from 'react-router-dom'
 import "../../media/CoLab.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import {AppContext} from "../../AppContext"
+import Video from "twilio-video";
+import { RoutesEnum } from '../../App'
 
 // this component renders form to be passed to VideoChat.js
 const JoinRoom = () => {
-  const {connecting, roomName, handleSubmit, handleUsernameChange} = useContext(AppContext)
+  const {connecting,username, roomName, handleUsernameChange, handleSetRoom, handleRoomTitle, handleSetConnecting} = useContext(AppContext)
   const rightElement = <FontAwesomeIcon icon={faArrowRight} />;
+  const history = useHistory()
+
+  const handleSubmit = useCallback(
+    async (event) => {
+      event.preventDefault();
+      handleSetConnecting(true);
+      const data = await fetch("/video/token", {
+        method: "POST",
+        body: JSON.stringify({
+          identity: username,
+          room: roomName,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => res.json());
+      Video.connect(data.token, {
+        name: roomName,
+      })
+        .then((room) => {
+          handleSetConnecting(false);
+          handleSetRoom(room);
+          history.push(RoutesEnum.Room)
+        })
+        .catch((err) => {
+          console.error(err);
+          handleSetConnecting(false);
+        });
+    },
+    [roomName, username]
+  );
 
   return (
     <form onSubmit={handleSubmit}>
