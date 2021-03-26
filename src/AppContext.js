@@ -1,5 +1,4 @@
-import React, { useState, createContext, useCallback} from 'react';
-import Video from "twilio-video";
+import React, { useState, createContext, useCallback, useEffect} from 'react';
 
 const AppContext = createContext([{}, () => {}]);
 
@@ -48,35 +47,6 @@ const AppContextProvider = ({children}) => {
     setRoomState('join')
   }
 
-  const handleSubmit = useCallback(
-    async (event) => {
-      event.preventDefault();
-      handleSetConnecting(true);
-      const data = await fetch("/video/token", {
-        method: "POST",
-        body: JSON.stringify({
-          identity: username,
-          room: roomName,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => res.json());
-      Video.connect(data.token, {
-        name: roomName,
-      })
-        .then((room) => {
-          handleSetConnecting(false);
-          handleSetRoom(room);
-        })
-        .catch((err) => {
-          console.error(err);
-          handleSetConnecting(false);
-        });
-    },
-    [roomName, username]
-  );
-
   const handleUsernameChange = useCallback((event) => {
     handleSetUsername(event.target.value);
   }, []);
@@ -109,6 +79,25 @@ const AppContextProvider = ({children}) => {
       });
     }, []);
 
+    useEffect(() => {
+      if (room) {
+        const tidyUp = (event) => {
+          if (event.persisted) {
+            return;
+          }
+          if (room) {
+            handleLogout();
+          }
+        };
+        window.addEventListener("pagehide", tidyUp);
+        window.addEventListener("beforeunload", tidyUp);
+        return () => {
+          window.removeEventListener("pagehide", tidyUp);
+          window.removeEventListener("beforeunload", tidyUp);
+        };
+      }
+    }, [room, handleLogout]);
+
   return (
       <AppContext.Provider value={{
         room,
@@ -125,7 +114,6 @@ const AppContextProvider = ({children}) => {
         handleSetRoomTitle,
         disconnectRoom,
         joinRoom,
-        handleSubmit,
         handleUsernameChange,
         handleRoomTitle,
         makeCustomRoom,

@@ -33,6 +33,7 @@ const Room = () => {
   const [mic, setMic] = useState(false);
   const [isYoutube, setIsYoutube] = useState(false);
   const { roomName, room, handleLogout } = useContext(AppContext);
+  console.log(room)
   // Video stuff
   const playerRef = useRef(null);
   const [videoProps, setVideoProps] = useState({
@@ -254,11 +255,11 @@ const Room = () => {
 
   return (
     <div className="roomPage">
-      <SideBar 
+      {/* <SideBar 
         handleLogout={handleLogout}
         currUser={room.localParticipant}
         users={participants}
-      />
+      /> */}
       <div className="container">
         <h2>
           Room: {roomName}, User: {room.localParticipant.identity}

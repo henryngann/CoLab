@@ -14,7 +14,7 @@ const Home = () => {
 
   const handleCreateRoom = () =>{
     makeCustomRoom()
-    history.push(RoutesEnum.createRoom)
+    history.push(RoutesEnum.CreateRoom)
   }
   
   return (
@@ -43,7 +43,7 @@ const Home = () => {
       {/* <form onSubmit={handleCreateRoom()} /> */}
       <h2 className="mt-5">Or create your own workout.</h2>
       <button
-        onClick={handleCreateRoom()}
+        onClick={handleCreateRoom}
         className="text-align-center customIcon"
         type="submit"
       >
