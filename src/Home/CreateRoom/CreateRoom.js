@@ -10,7 +10,7 @@ import Video from "twilio-video";
 // import { defaultWorkout } from "../../Room/CustomWorkout/DefaultWorkout"
 import {ListItem, ListItemText} from '@material-ui/core';
 import { FixedSizeList } from 'react-window';
-import { IndexKind } from "typescript";
+import AddIcon from '@material-ui/icons/Add';
 
 // this component renders form to be passed to VideoChat.js
 const CreateRoom = () => {
@@ -103,13 +103,13 @@ const CreateRoom = () => {
     setSelectedWorkout(value)
   }
 
-//   useEffect(() => {
-//     console.log(selectedWorkout)
-//  }, [selectedWorkout]);
+  useEffect(() => {
+    console.log(selectedWorkout)
+ }, [selectedWorkout]);
 
   const renderRow = ({index}) => {
     return (
-      <ListItem button key={index} onClick={handleSelect(index)}>
+      <ListItem button key={index} onClick={handleSelect(index)} selected={Boolean(index==selectedWorkout)}>
         <ListItemText primary={defaultWorkout[index].workoutName} />
       </ListItem>
     )
@@ -195,7 +195,12 @@ const CreateRoom = () => {
 
       <div className="workout-list">
       <br />
-      <h2>Your Workouts</h2>
+      <h3 className="inline-block-child">Your Workouts</h3>
+      <AddIcon className="inline-block-child" id="add-icon"
+        size="large"
+        onClick={()=>{history.push(RoutesEnum.CreateWorkout)}}
+        name='add'
+      />
       <div className="list-group">
         {workoutListMarkup}
       </div>
