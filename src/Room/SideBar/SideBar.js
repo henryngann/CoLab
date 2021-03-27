@@ -8,7 +8,8 @@ import play from "../../media/play.png";
 
 const SideBar = ({
     currUser,
-    users
+    users,
+    isYoutube
 }) => {
     const {workout} = useContext(AppContext)
     const [workoutTime, setWorkoutTime] = useState(workout.exercises[0].time);
@@ -45,22 +46,32 @@ const SideBar = ({
 
     const image = startWorkout ? pause : play;
 
+    const exerciseListMarkup = isYoutube ? <></> : (
+        <div className="exerciseList">
+            <h6>Now</h6>
+            <strong><h3>{exercise}</h3></strong>
+            <br />
+            <h6>Next Up</h6>
+            <div>{
+                nextUpExercise && nextUpExercise.length > 1 && typeof nextUpExercise != 'string'? nextUpExercise.map((exercise) => {
+                    return (<h6 key={exercise}>{exercise}</h6>)
+                }) : <h6>{nextUpExercise}</h6>
+            }</div>
+        </div>
+    )
+
+    const TimerProgressBarMarkup = isYoutube ? <></> : (
+        <>
+            <div className="resumeWorkout"><label>{counter + "s"}</label></div>
+            <TimerProgressBar completed = {completed} />
+            <button id="playPauseButtom" className="resumeWorkout" onClick={() => setStartWorkout(!startWorkout)}><img src={image} alt="pause"/></button>
+        </>
+    )
+
     return (
         <div className="sideBar">
-                <div className="resumeWorkout"><label>{counter + "s"}</label></div>
-                <TimerProgressBar completed = {completed} />
-                <button id="playPauseButtom" className="resumeWorkout" onClick={() => setStartWorkout(!startWorkout)}><img src={image} alt="pause"/></button>
-            <div className="exerciseList">
-                <h6>Now</h6>
-                <strong><h3>{exercise}</h3></strong>
-                <br />
-                <h6>Next Up</h6>
-                <div>{
-                    nextUpExercise && nextUpExercise.length > 1 && typeof nextUpExercise != 'string'? nextUpExercise.map((exercise) => {
-                        return (<h6 key={exercise}>{exercise}</h6>)
-                    }) : <h6>{nextUpExercise}</h6>
-                }</div>
-            </div>
+            {TimerProgressBarMarkup}
+            {exerciseListMarkup}
             <div className="commentSection">
                 <Chat
                     currUser={currUser}
