@@ -103,13 +103,13 @@ const CreateRoom = () => {
     setSelectedWorkout(value)
   }
 
-//   useEffect(() => {
-//     console.log(selectedWorkout)
-//  }, [selectedWorkout]);
+  useEffect(() => {
+    console.log(selectedWorkout)
+ }, [selectedWorkout]);
 
   const renderRow = ({index}) => {
     return (
-      <ListItem button key={index} onClick={handleSelect(index)}>
+      <ListItem button key={index} onClick={handleSelect(index)} selected={Boolean(index==selectedWorkout)}>
         <ListItemText primary={defaultWorkout[index].workoutName} />
       </ListItem>
     )
