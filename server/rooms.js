@@ -1,3 +1,5 @@
+const rooms = [];
+
 function getActiveRooms(io) {
     let activeRooms = [];
     Object.keys(io.sockets.adapter.rooms).forEach(room => {

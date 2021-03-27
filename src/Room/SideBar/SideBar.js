@@ -9,13 +9,13 @@ const SideBar = ({
     currUser,
     users
 }) => {
-    const [workoutTime, setWorkoutTime] = useState(defaultWorkout[0].time);
-    const [counter, setCounter] = useState(defaultWorkout[0].time);
-    const [exercise, setExercise] = useState(defaultWorkout[0].exercise);
+    const [workoutTime, setWorkoutTime] = useState(defaultWorkout[0].exercises[0].time);
+    const [counter, setCounter] = useState(defaultWorkout[0].exercises[0].time);
+    const [exercise, setExercise] = useState(defaultWorkout[0].exercises[0].exercise);
     const [workoutNumber, setWorkoutNumber] = useState(0);
     const [completed, setCompleted] = useState(100);
     const [startWorkout, setStartWorkout] = useState(false);
-    const [nextUpExercise, setNextUpExercise] = useState(defaultWorkout.map((workout, index) => { if(index !== 0)  return workout.exercise}));
+    const [nextUpExercise, setNextUpExercise] = useState(defaultWorkout[0].exercises.map((workout, index) => { if(index !== 0)  return workout.exercise}));
     
     useEffect(() => {
         if(startWorkout){
@@ -27,9 +27,9 @@ const SideBar = ({
 
 
     useEffect(() => {
-        setExercise(defaultWorkout[workoutNumber].exercise);
-        setWorkoutTime(defaultWorkout[workoutNumber].time);
-        setCounter(defaultWorkout[workoutNumber].time);
+        setExercise(defaultWorkout[0].exercises[workoutNumber].exercise);
+        setWorkoutTime(defaultWorkout[0].exercises[workoutNumber].time);
+        setCounter(defaultWorkout[0].exercises[workoutNumber].time);
         
         if(workoutNumber === 0) {
             nextUpExercise.shift()

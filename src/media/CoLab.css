@@ -76,3 +76,17 @@ h2:after {
   left: 0.5em;
   margin-right: -50%;
 }
+
+.workout-list {
+  width: 50%;
+  margin-left: 25%;
+  position: relative;
+}
+
+.inline-block-child {
+  display: inline-block;
+}
+
+#add-icon {
+  float: right;
+}

@@ -3,6 +3,8 @@ const { videoToken } = require('./tokens');
 const config = require('./config');
 const router = express.Router();
 
+const { getWorkouts, addWorkout } = require('./workouts.js');
+
 const sendTokenResponse = (token, res) => {
   res.set('Content-Type', 'application/json');
   res.send(
@@ -30,6 +32,18 @@ router.post('/video/token', (req, res) => {
   const room = req.body.room;
   const token = videoToken(identity, room, config);
   sendTokenResponse(token, res);
+});
+
+router.get('/api/workouts', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify(getWorkouts()));
+});
+
+router.post('/api/workouts', (req, res) => {
+  res.setHeader('Content-Type', 'text/plain');
+  const workout = req.body.workout;
+  const [code, addWorkoutMsg] = addWorkout(workout);
+  res.status(code).send(addWorkoutMsg);
 });
 
 module.exports = router;
