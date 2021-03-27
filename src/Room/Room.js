@@ -179,7 +179,7 @@ const Room = () => {
     all_participants = (isYoutube == 1) ? all_participants : all_participants.filter((participant) => participant.sid !== leaderParticipantIDs[0])
     return all_participants
       .map((participant) => (
-        <Participant key={participant.sid} participant={participant} />
+        <Participant key={participant.sid} participant={participant} className="col" />
       ));
   };
 
@@ -283,39 +283,31 @@ const Room = () => {
             <Tab value={1} label="Follow a Youtube Video"/>
           </Tabs>
         </Paper>
+        <div className="row local-participant">
+          {room && (isYoutube == 0)? leaderParticipant() : 
+          <Video
+            log={log}
+            room={room}
+            videoProps={videoProps}
+            updateVideoProps={updateVideoProps}
+            playerRef={playerRef}
+            sendVideoState={sendVideoState}
+            loadVideo={loadVideo}
+            playVideoFromSearch={playVideoFromSearch}
+          />}
+          {/* <div className="timer">{formatTime()}</div> */}
+        </div>
+        <div className="row remote-participants">
+          {remoteParticipants()}
+        </div>
         <div className="row">
           <div className="col">
-            <div className="local-participant">
-              {room && (isYoutube == 0)? leaderParticipant() : 
-              <Video
-                log={log}
-                room={room}
-                videoProps={videoProps}
-                updateVideoProps={updateVideoProps}
-                playerRef={playerRef}
-                sendVideoState={sendVideoState}
-                loadVideo={loadVideo}
-                playVideoFromSearch={playVideoFromSearch}
-              />}
-              {/* <div className="timer">{formatTime()}</div> */}
-            </div>
-            <div className="row">
-              <div className="col">
-                <div className="remote-participants">
-                  {remoteParticipants()}
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                <div className="icons mt-3">
-                  <div className="element">{spawnVid()}</div>
-                  <div className="micIcon">{spawnMic()}</div>
-                  <button className="leftIcon">{leftElement}</button>
-                  <button className="phoneIcon">{rightElement}</button>
-                  <button className="element">{fullElement}</button>
-                </div>
-              </div>
+            <div className="icons mt-3">
+              <div className="element">{spawnVid()}</div>
+              <div className="micIcon">{spawnMic()}</div>
+              <button className="leftIcon">{leftElement}</button>
+              <button className="phoneIcon">{rightElement}</button>
+              <button className="element">{fullElement}</button>
             </div>
           </div>
         </div>

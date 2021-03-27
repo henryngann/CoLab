@@ -124,10 +124,10 @@ button:hover {
   display: flex;
   text-align: center;
   flex-wrap: nowrap;
-  width: 15rem;
+  /* width: 15rem;
   height: 10rem;
   border-radius: 30px;
-  margin-bottom: 0rem;
+  margin-bottom: 0rem; */
 }
 .icons {
   display: flex;

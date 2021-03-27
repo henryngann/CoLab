@@ -118,7 +118,7 @@ const Video = ({ log, videoProps, updateVideoProps, playerRef, sendVideoState, l
     // }, [videoProps.playing])
 
     return (
-        <div className="videoContainer">
+        <div className="videoContainer col">
             <VideoPlayer
                 videoProps={videoProps}
                 sendVideoState={sendVideoState}
