@@ -286,7 +286,8 @@ const Room = () => {
         <div className="row">
           <div className="col">
             <div className="local-participant">
-              {room && (isYoutube == 0)? leaderParticipant() : <Video
+              {room && (isYoutube == 0)? leaderParticipant() : 
+              <Video
                 log={log}
                 room={room}
                 videoProps={videoProps}
