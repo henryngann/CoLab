@@ -1,9 +1,9 @@
 import React, { useEffect, useContext, useState, useRef } from "react";
 import Participant from "./Participant/Participant";
 import SideBar from "./SideBar/SideBar";
-import YoutubeIframe from "./YoutubeWorkout/YoutubeIframe";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AppContext } from "./../AppContext";
+import {Paper, Tab, Tabs} from '@material-ui/core';
 import {
   faMicrophone,
   faVideo,
@@ -31,7 +31,7 @@ const Room = () => {
   const [leaderParticipantIDs, setLeaderParticipantIDs] = useState([]);
   const [vid, setVid] = useState(false);
   const [mic, setMic] = useState(false);
-  const [isYoutube, setIsYoutube] = useState(false);
+  const [isYoutube, setIsYoutube] = useState(0);
   const { roomName, room, handleLogout } = useContext(AppContext);
   console.log(room)
   // Video stuff
@@ -176,7 +176,7 @@ const Room = () => {
       return `No Other Participants`;
     }
     let all_participants = [...participants, room.localParticipant];
-    all_participants = (isYoutube) ? all_participants : all_participants.filter((participant) => participant.sid !== leaderParticipantIDs[0])
+    all_participants = (isYoutube == 1) ? all_participants : all_participants.filter((participant) => participant.sid !== leaderParticipantIDs[0])
     return all_participants
       .map((participant) => (
         <Participant key={participant.sid} participant={participant} />
@@ -253,22 +253,40 @@ const Room = () => {
     console.log(vid);
   };
 
+  const handleChange = (value) => {
+    setIsYoutube(value)
+    console.log(value)
+  }
+
   return (
     <div className="roomPage">
       <SideBar 
         handleLogout={handleLogout}
         currUser={room.localParticipant}
         users={participants}
+        isYoutube={isYoutube}
       />
       <div className="container">
         <h2>
           Room: {roomName}, User: {room.localParticipant.identity}
         </h2>
 
+        <Paper square>
+          <Tabs
+            indicatorColor="primary"
+            textColor="primary"
+            value={isYoutube}
+            onChange={(event, value) => { handleChange(value) }}
+            aria-label="disabled tabs example"
+          >
+            <Tab value={0} label="Custom Workout"/>
+            <Tab value={1} label="Follow a Youtube Video"/>
+          </Tabs>
+        </Paper>
         <div className="row">
           <div className="col">
             <div className="local-participant">
-              {room && !isYoutube? leaderParticipant() : <Video
+              {room && (isYoutube == 0)? leaderParticipant() : <Video
                 log={log}
                 room={room}
                 videoProps={videoProps}
