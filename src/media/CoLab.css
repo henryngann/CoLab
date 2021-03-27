@@ -76,3 +76,9 @@ h2:after {
   left: 0.5em;
   margin-right: -50%;
 }
+
+.workout-list {
+  width: 60%;
+  margin-left: 20%;
+  position: relative;
+}
