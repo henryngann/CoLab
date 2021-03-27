@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Button, Divider, Grid, Header, Icon, Segment } from 'semantic-ui-react';
 import { sckt } from '../Socket';
 import './Video.scss';
 import { insert } from '../utils/video';
@@ -8,7 +7,7 @@ import VideoPlayer from "./Player/Player";
 
 
 
-const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendVideoState, loadVideo, playVideoFromSearch }) => {
+const Video = ({ log, videoProps, updateVideoProps, playerRef, sendVideoState, loadVideo, playVideoFromSearch }) => {
     const loadFromQueue = (queue, sync = false) => {
         let nextVideo = queue.shift(); // Remove from beginning of queue
         if (nextVideo !== undefined) {

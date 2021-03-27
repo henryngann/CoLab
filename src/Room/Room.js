@@ -271,7 +271,7 @@ const Room = () => {
           Room: {roomName}, User: {room.localParticipant.identity}
         </h2>
 
-        <Paper square>
+        <Paper square style={{width:"83%"}}>
           <Tabs
             indicatorColor="primary"
             textColor="primary"
