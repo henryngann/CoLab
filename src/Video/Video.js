@@ -135,31 +135,31 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
             />
             {/*
             <Segment placeholder>
-                    <Grid columns={2} stackable textAlign='center'>
-                        <Divider vertical>Or</Divider>
+                <Grid columns={2} stackable textAlign='center'>
+                    <Divider vertical>Or</Divider>
 
-                        <Grid.Row verticalAlign='middle'>
-                            <Grid.Column>
-                                <Header icon>
-                                    <Icon name='search' />
-                                    Search for a YouTube video
-                                </Header>
-                                <Button onClick={() => { document.getElementById("searchInput").focus(); }}>Search above!</Button>
-                            </Grid.Column>
+                    <Grid.Row verticalAlign='middle'>
+                        <Grid.Column>
+                            <Header icon>
+                                <Icon name='search' />
+                                Search for a YouTube video
+                            </Header>
+                            <Button onClick={() => { document.getElementById("searchInput").focus(); }}>Search above!</Button>
+                        </Grid.Column>
 
-                            <Grid.Column>
-                                <Header icon>
-                                    <div className="actionIcons">
-                                        <Icon name='youtube' onClick={() => { window.open('https://youtube.com', '_blank'); }} />
-                                        <Icon name='vimeo' onClick={() => { window.open('https://vimeo.com/search', '_blank'); }} />
-                                        <Icon name='twitch' onClick={() => { window.open('https://twitch.tv', '_blank'); }} />
-                                    </div>
-                                    Paste a video link
-                                </Header>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                </Segment>
+                        <Grid.Column>
+                            <Header icon>
+                                <div className="actionIcons">
+                                    <Icon name='youtube' onClick={() => { window.open('https://youtube.com', '_blank'); }} />
+                                    <Icon name='vimeo' onClick={() => { window.open('https://vimeo.com/search', '_blank'); }} />
+                                    <Icon name='twitch' onClick={() => { window.open('https://twitch.tv', '_blank'); }} />
+                                </div>
+                                Paste a video link
+                            </Header>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
+            </Segment>
             */}
         </div>
     );
