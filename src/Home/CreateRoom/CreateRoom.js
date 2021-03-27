@@ -29,6 +29,7 @@ const CreateRoom = () => {
       },
     }).then((res) => res.json()).then((res) => {
       setDefaultWorkout(res)
+      handleSetWorkout(res[selectedWorkout])
     });
   }, []);
    
@@ -101,11 +102,10 @@ const CreateRoom = () => {
 
   const handleSelect = value => () => {
     setSelectedWorkout(value)
+    handleSetWorkout(defaultWorkout[selectedWorkout])
   }
 
   useEffect(() => {
-    handleSetWorkout(defaultWorkout[selectedWorkout])
-    console.log(selectedWorkout)
  }, [selectedWorkout]);
 
   const renderRow = ({index}) => {
