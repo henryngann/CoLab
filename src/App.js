@@ -2,7 +2,6 @@ import React, {AppContext} from "react";
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
-import VideoChat from "./VideoChat";
 import Home from "./Home/Home";
 import "./media/CoLab.css";
 import {AppContextProvider} from "./AppContext"
