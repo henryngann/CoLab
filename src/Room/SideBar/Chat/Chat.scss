@@ -1,14 +1,17 @@
 .chatContainer {
+  top: 0px;
+  border-radius: 15px;
+  box-shadow: 3px 3px 5px 6px #ccc;
+
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #ffffff;
+
   height: 100%;
   width: 100%;
   font-size: 0.9em;
 }
-
 /* width */
 ::-webkit-scrollbar {
   width: 8px !important;
