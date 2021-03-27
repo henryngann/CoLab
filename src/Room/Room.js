@@ -175,9 +175,9 @@ const Room = () => {
     if (participants.length < 1) {
       return `No Other Participants`;
     }
-    const all_participants = [...participants, room.localParticipant];
+    let all_participants = [...participants, room.localParticipant];
+    all_participants = (isYoutube) ? all_participants : all_participants.filter((participant) => participant.sid !== leaderParticipantIDs[0])
     return all_participants
-      .filter((participant) => participant.sid !== leaderParticipantIDs[0])
       .map((participant) => (
         <Participant key={participant.sid} participant={participant} />
       ));
