@@ -43,16 +43,16 @@ const Home = () => {
         <input type="hidden" value="workout" />
       </form>
       <h1 className="mt-5 " style={{}}>
-        Make a Room
+        Create a Room
       </h1>
       {/* <form onSubmit={handleCreateRoom()} /> */}
-      <h2 className="mt-5">Or create your own workout.</h2>
+      {/* <h2 className="mt-5">Or create your own workout.</h2> */}
       <button
         onClick={handleCreateRoom}
         className="text-align-center customIcon"
         type="submit"
       >
-        Custom Workout
+        Create Room
       </button>
     </div>
   );
