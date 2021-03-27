@@ -34,7 +34,8 @@
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
     "twilio": "^3.54.2",
-    "twilio-video": "^2.10.0"
+    "twilio-video": "^2.10.0",
+    "moment": "*"
   },
   "scripts": {
     "start": "react-scripts start",

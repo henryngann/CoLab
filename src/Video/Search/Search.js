@@ -9,6 +9,7 @@ import {
 import './Search.scss';
 import SearchResults from './SearchResults/SearchResults';
 import { store } from 'react-notifications-component';
+import moment from 'moment'
 
 require('dotenv').config()
 
@@ -17,7 +18,8 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch, updateVideoProps })
     const [loading, setLoading] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
     const [page, setPage] = useState(1);
-    const baseURL = 'https://video-meta.herokuapp.com';
+    const [errSearch, setErrSearch] = useState("")
+    const baseURL = 'https://www.googleapis.com/youtube/v3/videos';
     const lastSearch = useRef('');
 
     const handlePlay = async (event) => {
@@ -26,13 +28,11 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch, updateVideoProps })
         if (trimInput === '' || trimInput === lastSearch.current) return;
         lastSearch.current = trimInput;
         if (isValidURL(trimInput)) {
+            setErrSearch("")
             const videoType = getVideoType(trimInput);
             updateVideoProps({ videoType });
             switch (videoType) {
                 case 'yt': getYTVideo(trimInput); break;
-                case 'vimeo': getVimeoVideo(trimInput); break
-                case 'twitch': getTwitchVideo(trimInput); break;
-                case 'soundcloud': getSoundCloudVideo(trimInput); break;
                 default:
                     store.addNotification({
                         title: "Oh no!",
@@ -51,65 +51,37 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch, updateVideoProps })
             }
         } else {
             // Search phrase on Youtube 
-            search({ term: trimInput, page: 1 });
-            updateVideoProps({ videoType: 'yt' });
+            setErrSearch('Invalid Youtube URL')
         }
     };
-    const search = async ({ term, page = 1 }) => {
-        const limit = (window.matchMedia('(max-width: 960px)').matches) ? 8 : 9;
-        setLoading(true);
-        axios.get(`${baseURL}/ytsearch`, {
-            params: {
-                query: term,
-                page: page,
-                limit: limit
-            }
-        }).then(response => {
-            setSearchResults(response.data.results);
-            setPage(page);
-            setLoading(false);
-        });
-    };
     const getYTVideo = async (ytUrl) => {
-        const videoId = youtube_parser(ytUrl);
+        const part = 'id,snippet,statistics'
+        const id = youtube_parser(ytUrl);
+        const key = process.env.REACT_APP_YOUTUBE_API_KEY
         setLoading(true);
-        axios.get(`${baseURL}/ytvideo`, {
-            params: { videoId }
+        axios.get(`${baseURL}`, {
+            params: { part, id, key }
         }).then(response => {
             setLoading(false);
-            const searchItem = response.data.results[0];
-            playVideoFromSearch(searchItem);
-        });
-    }
-    const getVimeoVideo = async (vimeoUrl) => {
-        setLoading(true);
-        axios.get(`${baseURL}/vimeovideo`, {
-            params: { vimeoUrl }
-        }).then(response => {
-            setLoading(false);
-            if (response.data.name !== "Error") {
-                const searchItem = response.data;
-                playVideoFromSearch(searchItem);
-            } else {
-                console.log("Invalid Vimeo URL")
+            console.log(response)
+            const searchItem = {
+                "channel" : {
+                    "url": `https://www.youtube.com/channel/${response.data.items[0].snippet.channelId}`,
+                    "username": response.data.items[0].snippet.channelTitle,
+                    "verified": false
+                },
+                "video" : {
+                    "id": response.data.items[0].id,
+                    "thumbnails": response.data.items[0].snippet.thumbnails.maxres.url,
+                    "title": response.data.items[0].snippet.title,
+                    "url": `https://www.youtube.com/watch?v=${response.data.items[0].id}`,
+                    "upload_date": moment(response.data.items[0].snippet.publishedAt).fromNow(),
+                    "views": response.data.items[0].statistics.viewCount
+                }
             }
-        });
-    }
-    const getTwitchVideo = async (twitchUrl) => {
-        axios.get(`${baseURL}/twitchvideo`, {
-            params: { twitchUrl }
-        }).then(response => {
-            setLoading(false);
-            console.log(response);
-            const searchItem = response.data;
             playVideoFromSearch(searchItem);
         });
     }
-    const getSoundCloudVideo = async (scUrl) => {
-        playVideoFromSearch({ video: { id: scUrl, url: scUrl }, channel: { username: '' } });
-    }
-    // Ping YT scraper without loading icon
-    useEffect(() => { search('') }, []);
 
     return (
         <div className="videoSearchContainer">
@@ -117,25 +89,19 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch, updateVideoProps })
                 fluid
                 id='searchInput'
                 size='large'
-                placeholder='Search a YouTube video or paste a video link...'
+                placeholder='Paste Youtube Link Here!'
                 value={searchInput}
                 onChange={e => setSearchInput(e.target.value)}
                 onKeyPress={e => e.key === 'Enter' ? handlePlay(e) : null}
                 action={{
-                    content: "Search",
+                    content: "Enter",
                     loading,
                     onClick: (e) => searchInput.trim() !== '' ? handlePlay(e) : null
                 }}
             />
-            <SearchResults
-                searchResults={searchResults}
-                playVideoFromSearch={playVideoFromSearch}
-                addVideoToQueue={addVideoToQueue}
-                page={page}
-                search={search}
-                searchInput={searchInput}
-                loading={loading}
-            />
+            <div>
+                {errSearch}
+            </div>
         </div>
     )
 };

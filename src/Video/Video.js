@@ -6,6 +6,8 @@ import { insert } from '../utils/video';
 import VideoSearch from './Search/Search';
 import VideoPlayer from "./Player/Player";
 
+
+
 const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendVideoState, loadVideo, playVideoFromSearch }) => {
     const loadFromQueue = (queue, sync = false) => {
         let nextVideo = queue.shift(); // Remove from beginning of queue
@@ -131,32 +133,6 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
                 playVideoFromSearch={playVideoFromSearch}
                 updateVideoProps={updateVideoProps}
             />
-            <Segment placeholder>
-                <Grid columns={2} stackable textAlign='center'>
-                    <Divider vertical>Or</Divider>
-
-                    <Grid.Row verticalAlign='middle'>
-                        <Grid.Column>
-                            <Header icon>
-                                <Icon name='search' />
-                                Search for a YouTube video
-                            </Header>
-                            <Button onClick={() => { document.getElementById("searchInput").focus(); }}>Search above!</Button>
-                        </Grid.Column>
-
-                        <Grid.Column>
-                            <Header icon>
-                                <div className="actionIcons">
-                                    <Icon name='youtube' onClick={() => { window.open('https://youtube.com', '_blank'); }} />
-                                    <Icon name='vimeo' onClick={() => { window.open('https://vimeo.com/search', '_blank'); }} />
-                                    <Icon name='twitch' onClick={() => { window.open('https://twitch.tv', '_blank'); }} />
-                                </div>
-                                Paste a video link
-                            </Header>
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
-            </Segment>
         </div>
     );
 }
