@@ -1,16 +1,23 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import "../../media/CoLab.css";
 import youtubeimg from "../../media/workout.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import {AppContext} from "../../AppContext"
+import { AppContext } from "../../AppContext";
 // this component renders form to be passed to VideoChat.js
 
 const CreateRoom = () => {
-  const {connecting, roomName, roomState, handleSubmit, roomTitle, handleRoomTitle} = useContext(AppContext)
+  const {
+    connecting,
+    roomName,
+    roomState,
+    handleSubmit,
+    roomTitle,
+    handleRoomTitle,
+  } = useContext(AppContext);
   const leftElement = <FontAwesomeIcon icon={faArrowLeft} />;
   const rightElement = <FontAwesomeIcon icon={faArrowRight} />;
-  
+
   return (
     <form onSubmit={handleSubmit}>
       <br />
@@ -104,7 +111,7 @@ const CreateRoom = () => {
         <button
           style={{
             position: "relative",
-            left: "16rem",
+            left: "13rem",
             width: "10rem",
             top: "-3.6rem",
             height: "3.7rem",
