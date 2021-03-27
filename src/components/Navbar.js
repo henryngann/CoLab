@@ -1,6 +1,6 @@
 import React from "react";
 import "../media/CoLab.css";
-import logo from "../media/sivitus_logo_black-01.png";
+import logo from "../media/sivitus_logo_blue-01.png";
 const Navbar = () => {
   return (
     <nav className="background shadow-lg">
@@ -11,7 +11,7 @@ const Navbar = () => {
           style={{
             marginLeft: "50px",
             width: "8rem",
-            height: "5rem",
+            height: "3.4rem",
             marginTop: "1rem",
           }}
         ></img>
