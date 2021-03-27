@@ -6,6 +6,7 @@ const AppContextProvider = ({children}) => {
   const [room, setRoom] = useState(null);
   const [connecting, setConnecting] = useState(false);
   const [username, setUsername] = useState("");
+  const [workout, setWorkout] = useState({"workoutName": "", "exercises": [{"time": 1, "exercise":""}]})
   const [roomName, setRoomName] = useState("");
   const [roomState, setRoomState] = useState(null);
   const [roomTitle, setRoomTitle] = useState("")
@@ -25,9 +26,11 @@ const AppContextProvider = ({children}) => {
   const handleSetRoomState = (roomState) => {
     setRoomState(roomState)
   }
-
   const handleSetRoomTitle = (roomTitle) => {
     setRoomTitle(roomTitle)
+  }
+  const handleSetWorkout = (workout) => {
+    setWorkout(workout)
   }
 
   // const createRoom = (room_code) => {
@@ -112,6 +115,8 @@ const AppContextProvider = ({children}) => {
         handleSetRoomState,
         roomTitle,
         handleSetRoomTitle,
+        workout,
+        handleSetWorkout,
         disconnectRoom,
         joinRoom,
         handleUsernameChange,

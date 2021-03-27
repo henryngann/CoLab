@@ -14,7 +14,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 // this component renders form to be passed to VideoChat.js
 const CreateRoom = () => {
-  const {connecting,username, roomName, roomState, roomTitle, handleSetRoom, handleRoomTitle, handleSetConnecting} = useContext(AppContext)
+  const {connecting,username, roomName, roomState, roomTitle, handleSetRoom, handleRoomTitle, handleSetConnecting, handleSetWorkout} = useContext(AppContext)
   const leftElement = <FontAwesomeIcon icon={faArrowLeft} />;
   const rightElement = <FontAwesomeIcon icon={faArrowRight} />;
   const history = useHistory()
@@ -104,6 +104,7 @@ const CreateRoom = () => {
   }
 
   useEffect(() => {
+    handleSetWorkout(defaultWorkout[selectedWorkout])
     console.log(selectedWorkout)
  }, [selectedWorkout]);
 
