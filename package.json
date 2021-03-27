@@ -16,6 +16,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-pino-logger": "^5.0.0",
+    "moment": "*",
     "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
@@ -29,14 +30,14 @@
     "react-scripts": "^2.0.5",
     "react-scroll-to-bottom": "^4.1.0",
     "react-tooltip": "^4.2.6",
+    "react-window": "^1.8.6",
     "screenfull": "^5.0.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
     "twilio": "^3.54.2",
-    "twilio-video": "^2.10.0",
-    "moment": "*"
+    "twilio-video": "^2.10.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,4 +1,4 @@
-import React, {useContext, useCallback} from "react";
+import React, {useContext, useCallback, useState, useEffect} from "react";
 import {useHistory} from 'react-router-dom'
 import "../../media/CoLab.css";
 import youtubeimg from "../../media/workout.png";
@@ -7,15 +7,19 @@ import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import {AppContext} from "../../AppContext"
 import { RoutesEnum } from '../../App'
 import Video from "twilio-video";
+import { defaultWorkout } from "../../Room/CustomWorkout/DefaultWorkout"
+import {ListItem, ListItemText} from '@material-ui/core';
+import { FixedSizeList } from 'react-window';
+import { IndexKind } from "typescript";
 
 // this component renders form to be passed to VideoChat.js
-
 const CreateRoom = () => {
   const {connecting,username, roomName, roomState, roomTitle, handleSetRoom, handleRoomTitle, handleSetConnecting} = useContext(AppContext)
   const leftElement = <FontAwesomeIcon icon={faArrowLeft} />;
   const rightElement = <FontAwesomeIcon icon={faArrowRight} />;
   const history = useHistory()
-
+  const [selectedWorkout, setSelectedWorkout] = useState(null);
+   
   const handleSubmit = useCallback(
     async (event) => {
       event.preventDefault();
@@ -81,6 +85,28 @@ const CreateRoom = () => {
         </p>
       </div>
     </>
+  )
+
+  const handleSelect = value => () => {
+    setSelectedWorkout(value)
+  }
+
+//   useEffect(() => {
+//     console.log(selectedWorkout)
+//  }, [selectedWorkout]);
+
+  const renderRow = ({index}) => {
+    return (
+      <ListItem button key={index} onClick={handleSelect(index)}>
+        <ListItemText primary={defaultWorkout[index].workoutName} />
+      </ListItem>
+    )
+  }
+
+  const workoutListMarkup = (
+    <FixedSizeList height={400} width={300} itemSize={defaultWorkout.length} itemCount={defaultWorkout.length}>
+      {renderRow}
+    </FixedSizeList>
   )
 
   return (
@@ -159,9 +185,7 @@ const CreateRoom = () => {
       <br />
       <h2>Your Workouts</h2>
       <div className="list-group">
-        <button type="button">
-          Cras justo odio
-        </button>
+        {workoutListMarkup}
       </div>
     </div>
     </>
