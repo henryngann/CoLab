@@ -18,7 +18,7 @@ const CreateRoom = () => {
   const leftElement = <FontAwesomeIcon icon={faArrowLeft} />;
   const rightElement = <FontAwesomeIcon icon={faArrowRight} />;
   const history = useHistory()
-  const [selectedWorkout, setSelectedWorkout] = useState(null);
+  const [selectedWorkout, setSelectedWorkout] = useState(0);
   const [defaultWorkout, setDefaultWorkout] = useState([]);
 
   useEffect(() => {

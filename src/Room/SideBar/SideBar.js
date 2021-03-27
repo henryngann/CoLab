@@ -23,7 +23,7 @@ const SideBar = ({
         if(startWorkout){
             counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
             setCompleted(counter/workoutTime * 100)
-            if(counter === 0 && workoutNumber < workout.length-1) setWorkoutNumber(workoutNumber + 1)
+            if(counter === 0 && workoutNumber < workout.exercises.length-1) setWorkoutNumber(workoutNumber + 1)
         }
     }, [counter, startWorkout, workoutNumber, workoutTime]);
 
