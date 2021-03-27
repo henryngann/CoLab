@@ -7,7 +7,7 @@ import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import {AppContext} from "../../AppContext"
 import { RoutesEnum } from '../../App'
 import Video from "twilio-video";
-import { defaultWorkout } from "../../Room/CustomWorkout/DefaultWorkout"
+// import { defaultWorkout } from "../../Room/CustomWorkout/DefaultWorkout"
 import {ListItem, ListItemText} from '@material-ui/core';
 import { FixedSizeList } from 'react-window';
 import { IndexKind } from "typescript";
@@ -19,6 +19,18 @@ const CreateRoom = () => {
   const rightElement = <FontAwesomeIcon icon={faArrowRight} />;
   const history = useHistory()
   const [selectedWorkout, setSelectedWorkout] = useState(null);
+  const [defaultWorkout, setDefaultWorkout] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/workouts", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => res.json()).then((res) => {
+      setDefaultWorkout(res)
+    });
+  }, []);
    
   const handleSubmit = useCallback(
     async (event) => {
