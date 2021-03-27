@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import TimerProgressBar from "./TimerProgressBar/TimerProgressBar"
 import { defaultWorkout } from "../CustomWorkout/DefaultWorkout"
+import { AppContext } from "../../AppContext";
 import Chat from './Chat/Chat';
 import pause from "../../media/pause.png";
 import play from "../../media/play.png";
@@ -9,27 +10,28 @@ const SideBar = ({
     currUser,
     users
 }) => {
-    const [workoutTime, setWorkoutTime] = useState(defaultWorkout[0].exercises[0].time);
-    const [counter, setCounter] = useState(defaultWorkout[0].exercises[0].time);
-    const [exercise, setExercise] = useState(defaultWorkout[0].exercises[0].exercise);
+    const {workout} = useContext(AppContext)
+    const [workoutTime, setWorkoutTime] = useState(workout.exercises[0].time);
+    const [counter, setCounter] = useState(workout.exercises[0].time);
+    const [exercise, setExercise] = useState(workout.exercises[0].exercise);
     const [workoutNumber, setWorkoutNumber] = useState(0);
     const [completed, setCompleted] = useState(100);
     const [startWorkout, setStartWorkout] = useState(false);
-    const [nextUpExercise, setNextUpExercise] = useState(defaultWorkout[0].exercises.map((workout, index) => { if(index !== 0)  return workout.exercise}));
+    const [nextUpExercise, setNextUpExercise] = useState(workout.exercises.map((workout, index) => { if(index !== 0)  return workout.exercise}));
     
     useEffect(() => {
         if(startWorkout){
             counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
             setCompleted(counter/workoutTime * 100)
-            if(counter === 0 && workoutNumber < defaultWorkout.length-1) setWorkoutNumber(workoutNumber + 1)
+            if(counter === 0 && workoutNumber < workout.exercises.length-1) setWorkoutNumber(workoutNumber + 1)
         }
     }, [counter, startWorkout, workoutNumber, workoutTime]);
 
 
     useEffect(() => {
-        setExercise(defaultWorkout[0].exercises[workoutNumber].exercise);
-        setWorkoutTime(defaultWorkout[0].exercises[workoutNumber].time);
-        setCounter(defaultWorkout[0].exercises[workoutNumber].time);
+        setExercise(workout.exercises[workoutNumber].exercise);
+        setWorkoutTime(workout.exercises[workoutNumber].time);
+        setCounter(workout.exercises[workoutNumber].time);
         
         if(workoutNumber === 0) {
             nextUpExercise.shift()
