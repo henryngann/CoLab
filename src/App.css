@@ -247,9 +247,12 @@ footer a {
 
 .exerciseList {
   margin-top: 20%;
-  min-height: 50%;
+
   padding-bottom: 10%;
-  height: 35%;
+  height: 250px;
   display: block;
+  right: 920px;
+  top: 34px;
+
   position: absolute;
 }

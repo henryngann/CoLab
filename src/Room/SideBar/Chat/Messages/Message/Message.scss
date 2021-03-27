@@ -20,7 +20,9 @@
 
 .messageContainer {
   display: flex;
-  justify-content: flex-end;
+  text-align: left;
+  justify-content: space-between;
+  margin-left: 50px;
   padding: 0 5%;
   margin: 3px 0;
   section {
