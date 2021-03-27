@@ -1,5 +1,4 @@
-import React, { useState, useCallback, useEffect, useContext} from "react";
-import Video from "twilio-video";
+import React, { useCallback, useEffect, useContext} from "react";
 import CreateRoom from "./Home/CreateRoom/CreateRoom";
 import Room from "./Room/Room";
 import JoinRoom from "./Home/JoinRoom/JoinRoom"
@@ -15,20 +14,8 @@ const VideoChat = () => {
     handleSetRoom,
     roomName,
     roomState,
+    handleLogout
   } = useContext(AppContext)
-
-  // ejects user from room and return them to lobby
-  const handleLogout = useCallback(() => {
-    handleSetRoom((prevRoom) => {
-      if (prevRoom) {
-        prevRoom.localParticipant.tracks.forEach((trackPub) => {
-          trackPub.track.stop();
-        });
-        prevRoom.disconnect();
-      }
-      return null;
-    });
-  }, []);
 
   useEffect(() => {
     if (room) {
@@ -57,7 +44,7 @@ const VideoChat = () => {
     if (room) {
       // renders the Room.js if we have a token
       render = (
-        <Room roomName={roomName} room={room} handleLogout={handleLogout} />
+        <Room />
       );
     } else {
       // only render the Lobby.js if we have don't have a token
