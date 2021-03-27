@@ -255,11 +255,11 @@ const Room = () => {
 
   return (
     <div className="roomPage">
-      {/* <SideBar 
+      <SideBar 
         handleLogout={handleLogout}
         currUser={room.localParticipant}
         users={participants}
-      /> */}
+      />
       <div className="container">
         <h2>
           Room: {roomName}, User: {room.localParticipant.identity}
