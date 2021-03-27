@@ -6,6 +6,8 @@ import { insert } from '../utils/video';
 import VideoSearch from './Search/Search';
 import VideoPlayer from "./Player/Player";
 
+
+
 const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendVideoState, loadVideo, playVideoFromSearch }) => {
     const loadFromQueue = (queue, sync = false) => {
         let nextVideo = queue.shift(); // Remove from beginning of queue
@@ -131,6 +133,7 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
                 playVideoFromSearch={playVideoFromSearch}
                 updateVideoProps={updateVideoProps}
             />
+            {/*
             <Segment placeholder>
                 <Grid columns={2} stackable textAlign='center'>
                     <Divider vertical>Or</Divider>
@@ -157,6 +160,7 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
                     </Grid.Row>
                 </Grid>
             </Segment>
+            */}
         </div>
     );
 }
