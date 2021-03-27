@@ -50,10 +50,29 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch, updateVideoProps })
                     break;
             }
         } else {
-            // Search phrase on Youtube 
             setErrSearch('Invalid Youtube URL')
+            // Search phrase on Youtub
+            // search({ term: trimInput, page: 1 });
+            // updateVideoProps({ videoType: 'yt' });
         }
     };
+    /*
+    const search = async ({ term, page = 1 }) => {
+        const limit = (window.matchMedia('(max-width: 960px)').matches) ? 8 : 9;
+        setLoading(true);
+        axios.get(`${baseURL}/ytsearch`, {
+            params: {
+                query: term,
+                page: page,
+                limit: limit
+            }
+        }).then(response => {
+            setSearchResults(response.data.results);
+            setPage(page);
+            setLoading(false);
+        });
+    };
+    */
     const getYTVideo = async (ytUrl) => {
         const part = 'id,snippet,statistics'
         const id = youtube_parser(ytUrl);
@@ -102,6 +121,18 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch, updateVideoProps })
             <div>
                 {errSearch}
             </div>
+            {/*
+            <SearchResults
+                searchResults={searchResults}
+                playVideoFromSearch={playVideoFromSearch}
+                addVideoToQueue={addVideoToQueue}
+                page={page}
+                search={search}
+                searchInput={searchInput}
+                loading={loading}
+            />
+            */}
+
         </div>
     )
 };
