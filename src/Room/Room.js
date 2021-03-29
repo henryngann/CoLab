@@ -33,7 +33,6 @@ const Room = () => {
   const [mic, setMic] = useState(false);
   const [isYoutube, setIsYoutube] = useState(0);
   const { roomName, room, handleLogout } = useContext(AppContext);
-  console.log(room)
   // Video stuff
   const playerRef = useRef(null);
   const [videoProps, setVideoProps] = useState({

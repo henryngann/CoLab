@@ -4,14 +4,14 @@ const getWorkouts = () => {
     return workouts
 };
 
-const addWorkout = (workout) => {
-    if (workout.workoutName == undefined || workout.exercises == undefined) {
+const addWorkout = (workoutName, exercises) => {
+    if (workoutName == undefined || exercises == undefined || exercises.length == 0) {
         return [400, 'Invalid Workout']
     }
-    if (workouts.some(e => e.workoutName == workout.workoutName)) {
+    if (workouts.some(e => e.workoutName == workoutName)) {
         return [400, 'Workout Already Exists']
     }
-    workouts.push(workout)
+    workouts.push({workoutName, exercises})
     return [200, 'Success']
 };
 
