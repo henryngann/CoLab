@@ -1,7 +1,7 @@
 const workouts = require('./defaultWorkouts.json')
 
 const getWorkouts = () => {
-    return workouts
+    return workouts.slice(0, 6)
 };
 
 const addWorkout = (workoutName, exercises) => {
@@ -15,7 +15,10 @@ const addWorkout = (workoutName, exercises) => {
     return [200, 'Success']
 };
 
+const getWorkoutByName = (name) => workouts.find((workout) => workout.workoutName === name);
+
 module.exports = { 
+    getWorkoutByName,
     getWorkouts,
     addWorkout
 };

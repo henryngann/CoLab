@@ -52,9 +52,6 @@ const CreateRoom = () => {
         name: roomName,
       })
         .then((room) => {
-          handleSetConnecting(false);
-          handleSetRoom(room);
-          history.push(RoutesEnum.Room)
           // Creates a room in the server
           fetch("/api/rooms", {
             method: "POST",
@@ -67,7 +64,15 @@ const CreateRoom = () => {
             headers: {
               "Content-Type": "application/json",
             },
-          }).then((res) => res.text().then((res) => console.log(res)));
+          }).then((res) => res.text().then((res) => {
+            console.log(res)
+            handleSetConnecting(false);
+            handleSetRoom(room);
+            history.push(RoutesEnum.Room)
+          })).catch((err) => {
+            console.error(err);
+            handleSetConnecting(false);
+          });
         })
         .catch((err) => {
           console.error(err);

@@ -3,8 +3,8 @@ const { videoToken } = require('./tokens');
 const config = require('./config');
 const router = express.Router();
 
-const { getWorkouts, addWorkout } = require('./workouts.js');
-const { addRoom, getRoomByName, getRoomBySID } = require('./rooms.js');
+const { getWorkouts, addWorkout, getWorkoutByName } = require('./workouts.js');
+const { addRoom, getRoom } = require('./rooms.js');
 ;
 const sendTokenResponse = (token, res) => {
   res.set('Content-Type', 'application/json');
@@ -39,7 +39,12 @@ router.post('/video/token', (req, res) => {
 // WORKOUTS
 router.get('/api/workouts', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify(getWorkouts()));
+  const workoutName = req.query.name;
+  if (workoutName == undefined) {
+    res.send(JSON.stringify(getWorkouts()));
+  } else {
+    res.send(getWorkoutByName(workoutName));
+  }
 });
 
 router.post('/api/workouts', (req, res) => {
@@ -53,11 +58,7 @@ router.post('/api/workouts', (req, res) => {
 router.get('/api/rooms', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   const sid_or_name = req.body.sid_or_name;
-  room = getRoomBySID(sid_or_name);
-  if (room != undefined){
-    res.send(JSON.stringify(room));
-  }
-  room = getRoomByName(sid_or_name);
+  room = getRoom(sid_or_name);
   if (room != undefined){
     res.send(JSON.stringify(room));
   } else {
