@@ -1,4 +1,4 @@
-import React, {useContext}from "react";
+import React, {useContext, useState}from "react";
 import {useHistory} from 'react-router-dom'
 import "../media/CoLab.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,15 +11,35 @@ const Home = () => {
   const {joinRoom, roomName, handleRoomNameChange, makeCustomRoom} = useContext(AppContext)
   const rightElement = <FontAwesomeIcon icon={faArrowRight} />;
   const history = useHistory()
+  const [errMessage, setErrMessage] = useState('')
 
   const handleCreateRoom = () =>{
     makeCustomRoom()
     history.push(RoutesEnum.CreateRoom)
   }
   
-  const handleJoinRoom = () =>{
-    joinRoom()
-    history.push(RoutesEnum.JoinRoom)
+  const handleJoinRoom = (event) =>{
+    fetch(`/api/rooms?sid_or_name=${roomName}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => {
+      if (res.ok) {
+        res.text().then((res) => {
+          joinRoom()
+          history.push(RoutesEnum.JoinRoom)
+        });
+      } else {
+        res.text().then((res) => {
+          setErrMessage(res)
+        });
+      }
+      
+    }).catch((err) => {
+      console.error(err);
+    });
+    event.preventDefault();
   }
 
   return (
@@ -41,6 +61,7 @@ const Home = () => {
           {rightElement}
         </button>
         <input type="hidden" value="workout" />
+        {errMessage}
       </form>
       <h1 className="mt-5 " style={{}}>
         Create a Room

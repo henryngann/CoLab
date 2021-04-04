@@ -57,7 +57,7 @@ router.post('/api/workouts', (req, res) => {
 // ROOMS
 router.get('/api/rooms', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  const sid_or_name = req.body.sid_or_name;
+  const sid_or_name = req.query.sid_or_name;
   room = getRoom(sid_or_name);
   if (room != undefined){
     res.send(JSON.stringify(room));

@@ -213,6 +213,8 @@ const Room = () => {
     }).then((res) => res.json()).then((res) => {
       loadingRoomData.current = true;
       handleSetWorkout(res)
+    }).catch((err) => {
+      console.log(err)
     });
   }
 
