@@ -31,9 +31,9 @@ const Room = () => {
   const [leaderParticipantIDs, setLeaderParticipantIDs] = useState([]);
   const [vid, setVid] = useState(false);
   const [mic, setMic] = useState(false);
-  const [isYoutube, setIsYoutube] = useState(0);
-  const { roomName, room, handleLogout } = useContext(AppContext);
-  console.log(room)
+  const [workoutType, setWorkoutType] = useState('vid'); // either 'vid' or 'yt'
+  const { roomName, room, handleLogout, workout, handleSetWorkout } = useContext(AppContext);
+  const loadingRoomData = useRef(true);
   // Video stuff
   const playerRef = useRef(null);
   const [videoProps, setVideoProps] = useState({
@@ -161,7 +161,7 @@ const Room = () => {
             // }, 750);
           });
   }, []);
-
+  // handles leader changes from server
   useEffect(() => {
     const handler = (leaderList) => {
       setLeaderParticipantIDs([...leaderList]);
@@ -170,13 +170,62 @@ const Room = () => {
     return () => sckt.socket.off('leader', handler);
   }, []);
 
+  // handles roomData changes from server
+  useEffect(() => {
+    const handler = (roomDataServer) => {
+      updateRoomData(roomDataServer.workoutType, roomDataServer.workoutID);
+    }
+    sckt.socket.on('roomData', handler);
+    return () => sckt.socket.off('roomData', handler);
+  }, []);
+
+  // uploads roomData changes to server
+  useEffect(() => {
+    // loading prevents sending data from server after receiving it
+    if (!loadingRoomData.current) {
+      const roomData = {
+        "name": roomName,
+        "sid": room.sid,
+        "workoutID": workout.name,
+        "workoutType": workoutType
+      }
+      sckt.socket.emit('updateRoomData', roomData, (err) => {});
+    } else {
+      loadingRoomData.current = false;
+    }
+  }, [workoutType, workout]);
+
+  const updateRoomData = (newWorkoutType, newWorkoutID) => {
+    const newData = {
+      "name": roomName,
+      "sid": room.sid,
+      "workoutID": newWorkoutID,
+      "workoutType": newWorkoutType
+    }
+    loadingRoomData.current = true;
+    setWorkoutType(newData.workoutType)
+
+    fetch("/api/workouts?name=" + newData.workoutID, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => res.json()).then((res) => {
+      loadingRoomData.current = true;
+      handleSetWorkout(res)
+    }).catch((err) => {
+      console.log(err)
+    });
+  }
+
+
   // show all the particpants in the room
   const remoteParticipants = () => {
     if (participants.length < 1) {
       return `No Other Participants`;
     }
     let all_participants = [...participants, room.localParticipant];
-    all_participants = (isYoutube == 1) ? all_participants : all_participants.filter((participant) => participant.sid !== leaderParticipantIDs[0])
+    all_participants = (workoutType == 'yt') ? all_participants : all_participants.filter((participant) => participant.sid !== leaderParticipantIDs[0])
     return all_participants
       .map((participant) => (
         <Participant key={participant.sid} participant={participant} className="col" />
@@ -254,8 +303,8 @@ const Room = () => {
   };
 
   const handleChange = (value) => {
-    setIsYoutube(value)
-    console.log(value)
+    const newWorkoutType = value ? 'yt' : 'vid';
+    setWorkoutType(newWorkoutType)
   }
 
   return (
@@ -264,7 +313,7 @@ const Room = () => {
         handleLogout={handleLogout}
         currUser={room.localParticipant}
         users={participants}
-        isYoutube={isYoutube}
+        isYoutube={workoutType == 'yt' ? 1 : 0}
       />
       <div className="container">
         <h2>
@@ -275,7 +324,7 @@ const Room = () => {
           <Tabs
             indicatorColor="primary"
             textColor="primary"
-            value={isYoutube}
+            value={workoutType == 'yt' ? 1 : 0}
             onChange={(event, value) => { handleChange(value) }}
             aria-label="disabled tabs example"
           >
@@ -284,7 +333,7 @@ const Room = () => {
           </Tabs>
         </Paper>
         <div className="row local-participant">
-          {room && (isYoutube == 0)? leaderParticipant() : 
+          {room && (workoutType == 'vid') ? leaderParticipant() : 
           <Video
             log={log}
             room={room}

@@ -14,7 +14,7 @@ const {
     getUserByName,
     getLeadersInRoom
 } = require('./users.js');
-const { getActiveRooms } = require('./rooms.js');
+const { getActiveRooms, getRoom, updateRoomData } = require('./rooms.js');
 
 
 const router = require('./router')
@@ -42,6 +42,7 @@ io.on('connection', (socket) => {
         if (error) return callback(error);
 
         socket.emit('message', { user: { name: 'admin' }, text: `Hi ${user.name}! Welcome to your new room! You can invite your friends to watch with you by sending them the link to this page.` });
+        socket.emit('roomData', getRoom(user.room));
         // socket.emit('message', { user: { name: 'admin' }, text: `${process.env.CLIENT}/room/${user.room}` });
 
         socket.broadcast.to(user.room).emit('message', { user: { name: 'admin' }, text: `${user.name} has joined` });
@@ -52,7 +53,7 @@ io.on('connection', (socket) => {
         }
 
         socket.join(user.room);
-        io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+        // io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
 
         let leaderList = getLeadersInRoom(user.room).map((obj) => obj.sid);
         io.to(user.room).emit('leader', leaderList);
@@ -62,7 +63,7 @@ io.on('connection', (socket) => {
         const user = removeUser(socket.id);
         if (user) {
             socket.broadcast.to(user.room).emit('message', { user: { name: 'admin' }, text: `${user.name} has left` });
-            socket.broadcast.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+            // socket.broadcast.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
 
             let leaderList = getLeadersInRoom(user.room).map((obj) => obj.sid);
             io.to(user.room).emit('leader', leaderList);
@@ -72,7 +73,7 @@ io.on('connection', (socket) => {
         const user = removeUser(socket.id);
         if (user) {
             socket.broadcast.to(user.room).emit('message', { user: { name: 'admin' }, text: `${user.name} has left` });
-            socket.broadcast.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+            // socket.broadcast.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
 
             let leaderList = getLeadersInRoom(user.room).map((obj) => obj.sid);
             io.to(user.room).emit('leader', leaderList);
@@ -86,17 +87,23 @@ io.on('connection', (socket) => {
         user.name = newName;
         if (user) {
             io.to(user.room).emit('message', { user: { name: 'admin' }, text: `${oldName} changed their name to ${newName}` });
-            io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+            // io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
         }
     });
     socket.on('checkRoomExists', ({ room }, callback) => {
         let rooms = getActiveRooms(io);
         return callback(rooms.includes(room));
     });
-    // socket.on('updateRoomData', ({ video }, callback) => {
-    //     const currRoom = Object.keys(socket.rooms).filter(item => item != socket.id)[0];
-    //     currVideo[currRoom] = video;
-    // })
+    socket.on('updateRoomData', ({ name, sid, workoutID, workoutType }) => {
+        // update room data here
+        const oldRoom = {...getRoom(sid)}
+        const room = updateRoomData(sid, name, workoutID, workoutType);
+        console.log(oldRoom)
+        console.log(room)
+        if (room && oldRoom != room) {
+            socket.broadcast.to(room.sid).emit('roomData', room)
+        }
+    })
     // socket.on('getAllRoomData', ({ }, callback) => {
     //     let rooms = getActiveRooms(io);
     //     let allRoomData = [];

@@ -14,7 +14,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 // this component renders form to be passed to VideoChat.js
 const CreateRoom = () => {
-  const {connecting,username, roomName, roomState, roomTitle, handleSetRoom, handleRoomTitle, handleSetConnecting, handleSetWorkout} = useContext(AppContext)
+  const {connecting, username, roomName, roomState, roomTitle, workout, handleSetRoom, handleRoomTitle, handleSetConnecting, handleSetWorkout} = useContext(AppContext)
   const leftElement = <FontAwesomeIcon icon={faArrowLeft} />;
   const rightElement = <FontAwesomeIcon icon={faArrowRight} />;
   const history = useHistory()
@@ -37,6 +37,7 @@ const CreateRoom = () => {
     async (event) => {
       event.preventDefault();
       handleSetConnecting(true);
+  
       const data = await fetch("/video/token", {
         method: "POST",
         body: JSON.stringify({
@@ -51,16 +52,34 @@ const CreateRoom = () => {
         name: roomName,
       })
         .then((room) => {
-          handleSetConnecting(false);
-          handleSetRoom(room);
-          history.push(RoutesEnum.Room)
+          // Creates a room in the server
+          fetch("/api/rooms", {
+            method: "POST",
+            body: JSON.stringify({
+              name: room.name,
+              sid: room.sid,
+              workoutID: workout.workoutName,
+              workoutType: 'vid',
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }).then((res) => res.text().then((res) => {
+            console.log(res)
+            handleSetConnecting(false);
+            handleSetRoom(room);
+            history.push(RoutesEnum.Room)
+          })).catch((err) => {
+            console.error(err);
+            handleSetConnecting(false);
+          });
         })
         .catch((err) => {
           console.error(err);
           handleSetConnecting(false);
         });
     },
-    [roomName, username]
+    [roomName, username, workout]
   );
 
   const makeYoutubeMarkup = (
@@ -102,7 +121,7 @@ const CreateRoom = () => {
 
   const handleSelect = value => () => {
     setSelectedWorkout(value)
-    handleSetWorkout(defaultWorkout[selectedWorkout])
+    handleSetWorkout(defaultWorkout[value])
   }
 
   useEffect(() => {

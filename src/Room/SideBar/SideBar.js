@@ -21,6 +21,16 @@ const SideBar = ({
     const [nextUpExercise, setNextUpExercise] = useState(workout.exercises.map((workout, index) => { if(index !== 0)  return workout.exercise}));
     
     useEffect(() => {
+        setWorkoutTime(workout.exercises[0].time);
+        setCounter(workout.exercises[0].time);
+        setExercise(workout.exercises[0].exercise);
+        setWorkoutNumber(0);
+        setCompleted(100);
+        setStartWorkout(false);
+        setNextUpExercise(workout.exercises.map((workout, index) => { if(index !== 0)  return workout.exercise}));
+    }, [workout]);
+
+    useEffect(() => {
         if(startWorkout){
             counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
             setCompleted(counter/workoutTime * 100)
