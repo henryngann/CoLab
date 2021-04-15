@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { sckt } from '../Socket';
-import './Video.scss';
+// import './Video.scss';
 import { insert } from '../utils/video';
 import VideoSearch from './Search/Search';
 import VideoPlayer from "./Player/Player";
@@ -119,6 +119,11 @@ const Video = ({ log, videoProps, updateVideoProps, playerRef, sendVideoState, l
 
     return (
         <div className="videoContainer col">
+            <VideoSearch
+                addVideoToQueue={addVideoToQueue}
+                playVideoFromSearch={playVideoFromSearch}
+                updateVideoProps={updateVideoProps}
+            />
             <VideoPlayer
                 videoProps={videoProps}
                 sendVideoState={sendVideoState}
@@ -126,11 +131,6 @@ const Video = ({ log, videoProps, updateVideoProps, playerRef, sendVideoState, l
                 playerRef={playerRef}
                 loadVideo={loadVideo}
                 loadFromQueue={loadFromQueue}
-            />
-            <VideoSearch
-                addVideoToQueue={addVideoToQueue}
-                playVideoFromSearch={playVideoFromSearch}
-                updateVideoProps={updateVideoProps}
             />
             {/*
             <Segment placeholder>

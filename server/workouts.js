@@ -1,7 +1,7 @@
 const workouts = require('./defaultWorkouts.json')
 
 const getWorkouts = () => {
-    return workouts.slice(0, 6)
+    return workouts.slice(0, 10)
 };
 
 const addWorkout = (workoutName, exercises) => {

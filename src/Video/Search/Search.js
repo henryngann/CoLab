@@ -6,9 +6,10 @@ import {
     getVideoType,
     isValidURL
 } from '../../utils/video';
-import './Search.scss';
+// import './Search.scss';
 import SearchResults from './SearchResults/SearchResults';
 import { store } from 'react-notifications-component';
+import { TextField} from '@material-ui/core';
 import moment from 'moment'
 
 require('dotenv').config()
@@ -82,7 +83,6 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch, updateVideoProps })
             params: { part, id, key }
         }).then(response => {
             setLoading(false);
-            console.log(response)
             const searchItem = {
                 "channel" : {
                     "url": `https://www.youtube.com/channel/${response.data.items[0].snippet.channelId}`,
@@ -104,7 +104,16 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch, updateVideoProps })
 
     return (
         <div className="videoSearchContainer">
-            <Input
+            <TextField
+                placeholder='Paste Youtube Link Here!'
+                value={searchInput}
+                onChange={e => setSearchInput(e.target.value)}
+                onKeyPress={e => e.key === 'Enter' ? handlePlay(e) : null}
+                disabled={loading}
+                error={errSearch}
+                helperText={errSearch}
+            />
+            {/* <Input
                 fluid
                 id='searchInput'
                 size='large'
@@ -120,7 +129,7 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch, updateVideoProps })
             />
             <div>
                 {errSearch}
-            </div>
+            </div> */}
             {/*
             <SearchResults
                 searchResults={searchResults}

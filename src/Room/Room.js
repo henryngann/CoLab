@@ -3,7 +3,8 @@ import Participant from "./Participant/Participant";
 import SideBar from "./SideBar/SideBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AppContext } from "./../AppContext";
-import {Paper, Tab, Tabs} from '@material-ui/core';
+import {Paper, Tab, Tabs, Grid, Typography, Box, IconButton} from '@material-ui/core';
+import { ArrowForward, ArrowBack, Videocam, VideocamOff, Mic, MicOff, CallEnd, Fullscreen, Apps, ChevronLeft, ChevronRight } from '@material-ui/icons';
 import {
   faMicrophone,
   faVideo,
@@ -16,6 +17,8 @@ import {
 import Video from '../Video/Video';
 import { getVideoType } from '../utils/video';
 import { sckt } from '../Socket';
+import { makeStyles } from "@material-ui/core/styles";
+
 
 const VideoElement = <FontAwesomeIcon icon={faVideo} />;
 const VideoElementMuted = <FontAwesomeIcon icon={faVideoSlash} />;
@@ -31,8 +34,8 @@ const Room = () => {
   const [leaderParticipantIDs, setLeaderParticipantIDs] = useState([]);
   const [vid, setVid] = useState(false);
   const [mic, setMic] = useState(false);
-  const [workoutType, setWorkoutType] = useState('vid'); // either 'vid' or 'yt'
-  const { roomName, room, handleLogout, workout, handleSetWorkout } = useContext(AppContext);
+  const [workoutType, setWorkoutType] = useState('yt'); // either 'vid' or 'yt'
+  const { roomName, room, handleLogout, workout, handleSetWorkout, openSideBar, handleOpenSideBar } = useContext(AppContext);
   const loadingRoomData = useRef(true);
   // Video stuff
   const playerRef = useRef(null);
@@ -45,6 +48,7 @@ const Room = () => {
     initVideo: false,
     videoType: 'yt' // 'vimeo', 'twitch', 'soundcloud'
   });
+  const drawerWidth = 300;
 
   const updateVideoProps = (paramsToChange) => {
     setVideoProps((prev) => ({ ...prev, ...paramsToChange }));
@@ -228,7 +232,7 @@ const Room = () => {
     all_participants = (workoutType == 'yt') ? all_participants : all_participants.filter((participant) => participant.sid !== leaderParticipantIDs[0])
     return all_participants
       .map((participant) => (
-        <Participant key={participant.sid} participant={participant} className="col" />
+        <Participant key={participant.sid} participant={participant} />
       ));
   };
 
@@ -306,62 +310,110 @@ const Room = () => {
     const newWorkoutType = value ? 'yt' : 'vid';
     setWorkoutType(newWorkoutType)
   }
+  const useStyles = makeStyles(theme => ({
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(3),
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      marginRight: drawerWidth,
+    },
+    contentShift: {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginRight: 0,
+    },
+  }));
+  const classes = useStyles();
 
   return (
-    <div className="roomPage">
+    <React.Fragment>
+      <Box display="flex" alignItems="center" justifyContent="center" my={6} className={`${classes.content} ${openSideBar ? '': (classes.contentShift)}`}>
+        <Grid container >
+          <Grid item container justify="space-between" xs={12}>
+            <Typography variant="h4">Room: {roomName}, User: {room.localParticipant.identity}</Typography>
+            <IconButton onClick={handleOpenSideBar}>
+              {openSideBar ? <ChevronRight /> : <ChevronLeft />}
+            </IconButton>
+          </Grid>
+          <Grid item xs={12}>
+            <Paper square style={{width:"83%"}}>
+              <Tabs
+                indicatorColor="primary"
+                textColor="primary"
+                value={workoutType == 'yt' ? 1 : 0}
+                onChange={(event, value) => { handleChange(value) }}
+                aria-label="disabled tabs example"
+              >
+                <Tab value={0} label="Custom Workout"/>
+                <Tab value={1} label="Follow a Youtube Video"/>
+              </Tabs>
+            </Paper>
+          </Grid>
+          <Grid item xs={12}>
+            {room && (workoutType == 'vid') ? leaderParticipant() : 
+            <Video
+              log={log}
+              room={room}
+              videoProps={videoProps}
+              updateVideoProps={updateVideoProps}
+              playerRef={playerRef}
+              sendVideoState={sendVideoState}
+              loadVideo={loadVideo}
+              playVideoFromSearch={playVideoFromSearch}
+            />}
+          </Grid>
+          <Grid item xs={12}>{remoteParticipants()}</Grid>
+          <Grid item container xs={12} >
+            <Grid item xs={4}>
+              <Box display="flex" justifyContent="flex-start" alignItems="center">
+                <IconButton>
+                  <Videocam></Videocam>
+                </IconButton>
+                <IconButton>
+                  <Mic></Mic>
+                </IconButton>
+                <IconButton>
+                  <CallEnd></CallEnd>
+                </IconButton>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" justifyContent="center" alignItems="center">
+                <IconButton>
+                  <ArrowBack/>
+                </IconButton>
+                {participants.length + leaderParticipantIDs.length}/{participants.length + leaderParticipantIDs.length} participants
+                <IconButton>
+                  <ArrowForward/>
+                </IconButton>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" justifyContent="flex-end" alignItems="center">
+                <IconButton>
+                  <Apps/>
+                </IconButton>
+                <IconButton>
+                  <Fullscreen/>
+                </IconButton>
+              </Box>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Box>
       <SideBar 
         handleLogout={handleLogout}
         currUser={room.localParticipant}
         users={participants}
         isYoutube={workoutType == 'yt' ? 1 : 0}
+        drawerWidth={drawerWidth}
       />
-      <div className="container">
-        <h2>
-          Room: {roomName}, User: {room.localParticipant.identity}
-        </h2>
-
-        <Paper square style={{width:"83%"}}>
-          <Tabs
-            indicatorColor="primary"
-            textColor="primary"
-            value={workoutType == 'yt' ? 1 : 0}
-            onChange={(event, value) => { handleChange(value) }}
-            aria-label="disabled tabs example"
-          >
-            <Tab value={0} label="Custom Workout"/>
-            <Tab value={1} label="Follow a Youtube Video"/>
-          </Tabs>
-        </Paper>
-        <div className="row local-participant">
-          {room && (workoutType == 'vid') ? leaderParticipant() : 
-          <Video
-            log={log}
-            room={room}
-            videoProps={videoProps}
-            updateVideoProps={updateVideoProps}
-            playerRef={playerRef}
-            sendVideoState={sendVideoState}
-            loadVideo={loadVideo}
-            playVideoFromSearch={playVideoFromSearch}
-          />}
-          {/* <div className="timer">{formatTime()}</div> */}
-        </div>
-        <div className="row remote-participants">
-          {remoteParticipants()}
-        </div>
-        <div className="row">
-          <div className="col">
-            <div className="icons mt-3">
-              <div className="element">{spawnVid()}</div>
-              <div className="micIcon">{spawnMic()}</div>
-              <button className="leftIcon">{leftElement}</button>
-              <button className="phoneIcon">{rightElement}</button>
-              <button className="element">{fullElement}</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </React.Fragment>
   );
 };
 
