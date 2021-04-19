@@ -4,6 +4,9 @@ import { Icon } from 'semantic-ui-react';
 import { Slider, Rail, Tracks } from "react-compound-slider";
 import { TooltipRail, SliderRail, Track } from "./Slider";
 import { formatTimestamp } from '../../utils/video';
+import {PlayArrow, Pause, VolumeOff, VolumeUp, VolumeDown, Fullscreen, FullscreenExit} from '@material-ui/icons';
+import {IconButton} from '@material-ui/core'
+
 
 const Controls = forwardRef(
   (
@@ -35,16 +38,20 @@ const Controls = forwardRef(
       position: "relative",
       width: "100%"
     };
+    const controlIcon = {
+      fill: "white"
+    };
     return (
       <div ref={ref} className="controlsContainer">
         {duration &&
           <div className="controls">
-            <Icon
-              size="large"
+            <IconButton
               onClick={onPlayPause}
-              // className="control action"
-              name={playing ? 'pause' : 'play'}
-            />
+              size="small"
+              title="Play/Pause">
+              {playing ? <Pause style={controlIcon}/> : <PlayArrow style={controlIcon}/>}
+            </IconButton>
+
             {!['twitch'].includes(videoType) &&
               <div className="timestamps elapsed" style={{ width: duration > 3600 ? '50px' : '40px' }}>
                 <span>{seeking ? formatTimestamp(jumpedTime) : formatTimestamp(currentTime)}</span>
@@ -86,13 +93,12 @@ const Controls = forwardRef(
                 <span>{formatTimestamp(duration)}</span>
               </div>
             }
-            <Icon
-              size="large"
+            <IconButton
               onClick={onMute}
-              // className="control action"
-              name={muted ? 'volume off' : (volume > 0.5 ? 'volume up' : 'volume down')}
-              title="Mute"
-            />
+              size="small"
+              title="Mute">
+              {muted ? <VolumeOff style={controlIcon}/> : (volume > 0.5 ? <VolumeUp style={controlIcon}/> : <VolumeDown style={controlIcon}/>)}
+            </IconButton>
 
             <div className='volumeSlider'>
               <Slider
@@ -123,11 +129,12 @@ const Controls = forwardRef(
                 </Tracks>
               </Slider>
             </div>
-            <Icon
-              size='large'
+            <IconButton
               onClick={onToggleFullScreen}
-              name={isFullscreen ? 'compress' : 'expand'}
-            />
+              size="small"
+              title="Fullscreen">
+              {isFullscreen ? <FullscreenExit style={controlIcon}/> : <Fullscreen style={controlIcon}/>}
+            </IconButton>
           </div>
         }
       </div >

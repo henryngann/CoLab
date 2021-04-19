@@ -1,19 +1,33 @@
 import React from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import Message from './Message/Message';
-import './Messages.scss';
+import { List, ListItem} from '@material-ui/core';
+import { makeStyles } from "@material-ui/core/styles";
+
+// import './Messages.scss';
 
 const Messages = ({ messages, currUser, users }) => {
+    const useStyles = makeStyles(theme => ({
+        messages: { 
+            flexDirection: "column",
+            display: "flex",
+            flex: 1,
+            '& > :first-child': {
+                marginTop: 'auto',
+            }
+        },
+    }));
+    const classes = useStyles();
     return (
-        <ScrollToBottom className="messages">
+        <List className={classes.messages}>
             {
                 messages.map((message, i) =>
-                    <div className="messageOuterContainer" key={i}>
+                    <ListItem key={i} >
                         <Message message={message} currUser={currUser} users={users} />
-                    </div>
+                    </ListItem>
                 )
             }
-        </ScrollToBottom>
+        </List>
     )
 };
 

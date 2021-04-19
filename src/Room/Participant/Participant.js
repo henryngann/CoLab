@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import "../../media/CoLab.css";
+// import "../../media/CoLab.css";
 
 const Participant = ({ participant }) => {
   const [videoTracks, setVideoTracks] = useState([]);
