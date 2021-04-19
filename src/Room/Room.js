@@ -31,6 +31,8 @@ const MicElementMuted = <FontAwesomeIcon icon={faMicrophoneSlash} />;
 // using roomName and token, we will create a room
 const Room = () => {
   const [participants, setParticipants] = useState([]);
+  const [participantPage, setParticipantPage] = useState(0);
+  const ppp = 4; // participants per page
   const [leaderParticipantIDs, setLeaderParticipantIDs] = useState([]);
   const [vid, setVid] = useState(false);
   const [mic, setMic] = useState(false);
@@ -183,6 +185,18 @@ const Room = () => {
     return () => sckt.socket.off('roomData', handler);
   }, []);
 
+  // sends disconnect to room if they close screen
+  useEffect( () => {
+    window.addEventListener('beforeunload', leaveRoomIfJoined);
+    // Leave Room.
+    function leaveRoomIfJoined() {
+      if (room) {
+          room.disconnect();
+      }
+    }
+  }, []);
+  
+
   // uploads roomData changes to server
   useEffect(() => {
     // loading prevents sending data from server after receiving it
@@ -198,6 +212,16 @@ const Room = () => {
       loadingRoomData.current = false;
     }
   }, [workoutType, workout]);
+
+  // resets participant page if there are no remote participants
+  useEffect(() => {
+    let all_participants = [...participants, room.localParticipant];
+    all_participants = (workoutType == 'yt') ? all_participants : all_participants.filter((participant) => participant.sid !== leaderParticipantIDs[0])
+    const viewer_len = all_participants.slice(participantPage * ppp, participantPage * ppp + ppp).length
+    if (viewer_len == 0 && participantPage != 0) {
+      setParticipantPage(0)
+    }
+  }, [participants]);
 
   const updateRoomData = (newWorkoutType, newWorkoutID) => {
     const newData = {
@@ -231,10 +255,14 @@ const Room = () => {
     let all_participants = [...participants, room.localParticipant];
     all_participants = (workoutType == 'yt') ? all_participants : all_participants.filter((participant) => participant.sid !== leaderParticipantIDs[0])
     return all_participants
+      .slice(participantPage * ppp, participantPage * ppp + ppp)
       .map((participant) => (
-        <Participant key={participant.sid} participant={participant} />
+        <Grid item xs={3} key={participant.sid}> 
+          <Participant participant={participant} />
+        </Grid>
       ));
   };
+
 
   const leaderParticipant = () => {
     if (participants.length >= 1) {
@@ -310,6 +338,15 @@ const Room = () => {
     const newWorkoutType = value ? 'yt' : 'vid';
     setWorkoutType(newWorkoutType)
   }
+  const handleParticipantPage = (pageDelta) => {
+    let all_participants = [...participants, room.localParticipant];
+    all_participants = (workoutType == 'yt') ? all_participants : all_participants.filter((participant) => participant.sid !== leaderParticipantIDs[0])
+    const newPageNum = participantPage + pageDelta;
+    if (all_participants.slice(newPageNum * ppp, newPageNum * ppp + ppp).length > 0) {
+      setParticipantPage(newPageNum)
+    }
+  }
+
   const useStyles = makeStyles(theme => ({
     content: {
       flexGrow: 1,
@@ -355,19 +392,21 @@ const Room = () => {
             </Paper>
           </Grid>
           <Grid item xs={12}>
-            {room && (workoutType == 'vid') ? leaderParticipant() : 
-            <Video
-              log={log}
-              room={room}
-              videoProps={videoProps}
-              updateVideoProps={updateVideoProps}
-              playerRef={playerRef}
-              sendVideoState={sendVideoState}
-              loadVideo={loadVideo}
-              playVideoFromSearch={playVideoFromSearch}
-            />}
+            <Box width="100%">
+              {room && (workoutType == 'vid') ? leaderParticipant() : 
+              <Video
+                log={log}
+                room={room}
+                videoProps={videoProps}
+                updateVideoProps={updateVideoProps}
+                playerRef={playerRef}
+                sendVideoState={sendVideoState}
+                loadVideo={loadVideo}
+                playVideoFromSearch={playVideoFromSearch}
+              />}
+            </Box>
           </Grid>
-          <Grid item xs={12}>{remoteParticipants()}</Grid>
+          <Grid item container xs={12}>{remoteParticipants()}</Grid>
           <Grid item container xs={12} >
             <Grid item xs={4}>
               <Box display="flex" justifyContent="flex-start" alignItems="center">
@@ -384,11 +423,11 @@ const Room = () => {
             </Grid>
             <Grid item xs={4}>
               <Box display="flex" justifyContent="center" alignItems="center">
-                <IconButton>
+                <IconButton onClick={() => handleParticipantPage(-1)}>
                   <ArrowBack/>
                 </IconButton>
-                {participants.length + leaderParticipantIDs.length}/{participants.length + leaderParticipantIDs.length} participants
-                <IconButton>
+                {participants.length + leaderParticipantIDs.length}/{participants.length + leaderParticipantIDs.length} participants {participantPage}
+                <IconButton onClick={() => handleParticipantPage(1)}>
                   <ArrowForward/>
                 </IconButton>
               </Box>

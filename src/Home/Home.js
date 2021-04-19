@@ -79,7 +79,7 @@ const Home = () => {
               <Grid item xs={6}>
                 <Box display="flex" alignItems="flex-start" justifyContent="center">
                   <form onSubmit={handleJoinRoom}>
-                    <TextField required variant="outlined" placeholder="Room Code:" size='small' value={roomName} onChange={handleRoomNameChange} helperText={errMessage} error={errMessage}
+                    <TextField required variant="outlined" placeholder="Room Code:" size='small' value={roomName} onChange={handleRoomNameChange} helperText={errMessage} error={errMessage != ''}
                     InputProps={{endAdornment:
                       (<InputAdornment position="end">
                         <IconButton color="primary" edge="end" variant="contained" type="submit"><ArrowForward/></IconButton>

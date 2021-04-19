@@ -55,8 +55,21 @@ const CreateRoom = () => {
       }).then((res) => res.json());
       Video.connect(data.token, {
         name: roomName,
+        bandwidthProfile: {
+          mode: 'collaboration',
+          maxSubscriptionBitrate: 2400000,
+          renderDimensions: {
+            high: {width: 1080, height: 720},
+            standard: {width: 640, height: 480},
+            low: {width: 320, height: 240}
+          }
+        }
       })
         .then((room) => {
+          room.localParticipant.tracks.forEach(localTracks => {
+            localTracks.setPriority('high')
+          });
+
           // Creates a room in the server
           fetch("/api/rooms", {
             method: "POST",

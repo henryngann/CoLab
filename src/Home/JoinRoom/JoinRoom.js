@@ -25,7 +25,7 @@ const JoinRoom = () => {
   // create local video track
   useEffect(() => {
     async function getLocalTrack() {
-      const videoTrack = await Video.createLocalVideoTrack({width: videoContainerRef.current.offsetWidth});
+      const videoTrack = await Video.createLocalVideoTrack();
       setVideoTracks(() => [...videoTracks, videoTrack]);
     }
     getLocalTrack()
@@ -69,6 +69,9 @@ const JoinRoom = () => {
         tracks: videoTracks
       })
         .then((room) => {
+          room.localParticipant.tracks.forEach(localTracks => {
+            localTracks.setPriority('low')
+          });
           handleSetConnecting(false);
           handleSetRoom(room);
           history.push(RoutesEnum.Room)
@@ -151,7 +154,7 @@ const JoinRoom = () => {
             </Grid>
             <Grid item xs={12}>
               <Box display="flex" justifyContent="center" ref={videoContainerRef}>
-                {(videoRef) ? <video ref={videoRef} autoPlay={true} /> : ''}
+                {(videoRef) ? <video ref={videoRef} autoPlay={true}  style={{width: "100%", maxHeight: "100%"}}/> : ''}
               </Box>
             </Grid>
             <Grid item xs={1}>

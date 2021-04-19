@@ -110,7 +110,7 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch, updateVideoProps })
                 onChange={e => setSearchInput(e.target.value)}
                 onKeyPress={e => e.key === 'Enter' ? handlePlay(e) : null}
                 disabled={loading}
-                error={errSearch}
+                error={errSearch != ''}
                 helperText={errSearch}
             />
             {/* <Input
